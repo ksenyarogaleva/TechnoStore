@@ -66,11 +66,12 @@ namespace TechnoStore.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user=this.technics.Users
+                var user=this.technics.Users.Include(u=>u.Role)
                     .FirstOrDefault(u => u.Email == model.UserName);
 
                 if (user == null)
                 {
+                    user = new User() { Email = model.UserName, Password = model.Password };
                     user.RoleId = 2;
                     user.Role = this.technics.Roles.FirstOrDefault(r => r.RoleId == user.RoleId);
 
@@ -86,8 +87,8 @@ namespace TechnoStore.WebUI.Controllers
                 }
                 else
                 {
-                    TempData["message"] = string.Format("Such user already exists");
-                    //ModelState.AddModelError("", "Such user already exists.");
+                    //TempData["message"] = string.Format("Such user already exists");
+                    ModelState.AddModelError("", "Such user already exists.");
                 }
             }
             return View(model);
@@ -95,7 +96,7 @@ namespace TechnoStore.WebUI.Controllers
         public ActionResult Logoff()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("List", "Technics");
         }
     }
 }

@@ -24,7 +24,7 @@ namespace TechnoStore.WebUI.Controllers
 
             if (User.IsInRole("Admin"))
             {
-                return RedirectToAction("List", "Admin");
+                return RedirectToAction("List", "Admin",new { area = "Admin" });
             }
 
             var listModel = new TechnicsListViewModel
