@@ -1,0 +1,15 @@
+﻿@using TechnoStore.WebUI.Models
+@model TechnicsListViewModel
+
+@{
+    ViewBag.Title = "Products";
+}
+
+@foreach (var product in @Model.Technics)
+{
+    @Html.Partial("TechnicsSummary", product)
+}
+
+
+
+

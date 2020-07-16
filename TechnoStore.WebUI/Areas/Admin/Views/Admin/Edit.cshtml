@@ -1,0 +1,63 @@
+﻿@model TechnoStore.WebUI.Models.Entities.Technics
+
+@{
+    ViewBag.Title = "Admin panel: product editing";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Editing product @Model.Name</h3>
+    </div>
+
+    @{Html.EnableClientValidation();}
+    @{Html.EnableUnobtrusiveJavaScript();}
+    @using (Html.BeginForm("Edit","Admin"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="panel-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.TechnicsId)
+            @Html.HiddenFor(model => model.CategoryId)
+
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "TechnicsId" && property.PropertyName != "CategoryId")
+                {
+
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                        @if (property.PropertyName == "Description")
+                        {
+                            @Html.TextArea(property.PropertyName, null,
+                               new { @class = "form-control", rows = 5 })
+                        }
+                        else
+                        {
+                            if (property.PropertyName == "Category")
+                            {
+                                @Html.TextAreaFor(m => this.Model.Category.Name,
+                                   new { @class = "form-control", rows = 1 })
+                            }
+                            else
+                            {
+                                @Html.TextBox(property.PropertyName, null,
+                                   new { @class = "form-control" })
+                            }
+                        }
+
+                        @Html.ValidationMessage(property.PropertyName, new { @class = "text-danger" })
+                    </div>
+
+                }
+            }
+            <div class="panel-footer">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                @Html.ActionLink("Cancel.Back to list", "List", "Admin", null,
+        new { @class = "btn  btn-default " })
+
+            </div>
+
+        </div>
+    }
+</div>
