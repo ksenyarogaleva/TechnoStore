@@ -211,6 +211,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -238,15 +239,19 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\NavController.cs" />
+    <Compile Include="Infrastructure\Abstract\IOrderProcessor.cs" />
     <Compile Include="Infrastructure\Abstract\ITechnicsRepository.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
     <Compile Include="Infrastructure\Concrete\EFDbContext.cs" />
     <Compile Include="Infrastructure\Concrete\EFTechnicsRepository.cs" />
     <Compile Include="Controllers\TechnicsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Concrete\EmailOrderProcessor.cs" />
+    <Compile Include="Infrastructure\Concrete\EmailSettings.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Providers\CustomRoleProvider.cs" />
     <Compile Include="Migrations\202007171114398_InitialCreate.cs" />
@@ -258,6 +263,7 @@
     <Compile Include="Models\Entities\Cart\CartIndexViewModel.cs" />
     <Compile Include="Models\Entities\Cart\CartTechnic.cs" />
     <Compile Include="Models\Entities\Category.cs" />
+    <Compile Include="Models\Entities\ShippingDetails.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Entities\Role.cs" />
@@ -290,6 +296,8 @@
     <Content Include="Views\Shared\_EnterLayout.cshtml" />
     <Content Include="Views\Shared\NavBar.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\Checkout.cshtml" />
+    <Content Include="Views\Cart\Completed.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

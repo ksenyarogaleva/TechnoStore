@@ -15,6 +15,7 @@
     <div class="row panel">
         <div id="categories" class="col-xs-3">
             @Html.Action("Menu", "Nav", new { area = "" })
+            @RenderSection("CartButton", false)
         </div>
         <div class="col-xs-8">
             @RenderBody()

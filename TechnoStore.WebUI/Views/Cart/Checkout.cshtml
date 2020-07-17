@@ -1,0 +1,46 @@
+﻿@model TechnoStore.WebUI.Models.Entities.ShippingDetails
+@{
+    ViewBag.Title = "TechnoStore: order form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Make order now</h2>
+<p>Please, enter your contact information, and we will send your order immidiately!</p>
+
+@{Html.EnableClientValidation();}
+@{Html.EnableUnobtrusiveJavaScript();}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <h3>Your contact information</h3>
+    <div class="form-group">
+        <label>Name:</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
+
+    <h3>Shipping address:</h3>
+    foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        if (property.PropertyName != "Name" && property.PropertyName != "GiftWrap")
+        {
+            <div class="form-group">
+                <label>@(property.DisplayName ?? property.PropertyName)</label>
+                @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+
+                @Html.ValidationMessage(property.PropertyName, new { @class = "text-danger" })
+            </div>
+        }
+    }
+
+    <h3>Options</h3>
+    <div class="checkbox">
+        <label>
+            @Html.EditorFor(x => x.GiftWrap)
+            Use gift wrap
+        </label>
+    </div>
+
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Confirm the order" />
+    </div>
+}

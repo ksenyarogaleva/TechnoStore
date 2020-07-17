@@ -2,6 +2,7 @@
 using Ninject;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Web;
@@ -42,7 +43,19 @@ namespace TechnoStore.WebUI.Infrastructure
             //        new Technics{Name="Apple AirPods",Price=129.99m}
 
             //    });
+
+            //repositoy creation
             this.kernel.Bind<ITechnicsRepository>().To<EFTechnicsRepository>();
+
+            //order processing creation
+            EmailSettings emailSettings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(ConfigurationManager
+                    .AppSettings["Email.WriteAsFile"] ?? "false")
+            };
+
+            this.kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
+                .WithConstructorArgument("settings", emailSettings);
         }
     }
 }

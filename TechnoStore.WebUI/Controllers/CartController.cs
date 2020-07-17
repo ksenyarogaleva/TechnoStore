@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TechnoStore.WebUI.Infrastructure.Abstract;
+using TechnoStore.WebUI.Models.Entities;
 using TechnoStore.WebUI.Models.Entities.Cart;
 
 namespace TechnoStore.WebUI.Controllers
@@ -11,58 +12,74 @@ namespace TechnoStore.WebUI.Controllers
     public class CartController : Controller
     {
         private ITechnicsRepository repository;
+        private IOrderProcessor orderProcessor;
 
-        public ActionResult Index(string returnUrl)
+        public CartController(ITechnicsRepository technicsRepository,IOrderProcessor processor)
+        {
+            this.repository = technicsRepository;
+            this.orderProcessor = processor;
+        }
+
+        public ActionResult Index(Cart cart, string returnUrl)
         {
             return View(new CartIndexViewModel
             {
-                Cart = this.GetCart(),
-                ReturnUrl=returnUrl,
+                Cart = cart,
+                ReturnUrl = returnUrl,
             });
-            
+
         }
 
-        public CartController(ITechnicsRepository technicsRepository)
-        {
-            this.repository = technicsRepository;
-        }
-
-        public RedirectToRouteResult AddToCart(int technicsId,string returnUrl)
+        public RedirectToRouteResult AddToCart(Cart cart, int technicsId, string returnUrl)
         {
             var technic = this.repository.Technics
                 .FirstOrDefault(t => t.Id == technicsId);
 
             if (technic != null)
             {
-                this.GetCart().AddToCart(technic, 1);
+                cart.AddToCart(technic, 1);
             }
 
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        public RedirectToRouteResult RemoveFromCart(int technicsId,string returnUrl)
+        public RedirectToRouteResult RemoveFromCart(Cart cart, int technicsId, string returnUrl)
         {
             var technic = this.repository.Technics
                 .FirstOrDefault(t => t.Id == technicsId);
 
             if (technic != null)
             {
-                this.GetCart().RemoveFromCart(technic);
+                cart.RemoveFromCart(technic);
             }
 
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        public Cart GetCart()
+        public ActionResult Checkout()
         {
-            var cart = (Cart)Session["Cart"];
-            if(cart is null)
+            return View(new ShippingDetails());
+        }
+
+        [HttpPost]
+        public ActionResult Checkout(Cart cart, ShippingDetails shippingDetails)
+        {
+            if (cart.TechnicsInCart.Count() == 0)
             {
-                cart = new Cart();
-                Session["Cart"] = cart;
+                ModelState.AddModelError("", "Your cart is empty!");
             }
 
-            return cart;
+            if (ModelState.IsValid)
+            {
+                this.orderProcessor.ProcessOrder(cart, shippingDetails);
+                cart.Clear();
+
+                return View("Completed");
+            }
+            else
+            {
+                return View(shippingDetails);
+            }
         }
     }
 }
