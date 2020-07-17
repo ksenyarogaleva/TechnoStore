@@ -1,4 +1,4 @@
-﻿@model TechnoStore.WebUI.Models.Entities.Technics
+﻿@model TechnoStore.WebUI.Models.Entities.Technic
 
 @{
     ViewBag.Title = "Admin panel: product editing";
@@ -11,20 +11,18 @@
 
     @{Html.EnableClientValidation();}
     @{Html.EnableUnobtrusiveJavaScript();}
-    @using (Html.BeginForm("Edit","Admin"))
+    @using (Html.BeginForm("Edit", "Admin"))
     {
         @Html.AntiForgeryToken()
 
         <div class="panel-body">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.TechnicsId)
-            @Html.HiddenFor(model => model.CategoryId)
+            @Html.HiddenFor(model => model.Id)
 
             @foreach (var property in ViewData.ModelMetadata.Properties)
             {
-                if (property.PropertyName != "TechnicsId" && property.PropertyName != "CategoryId")
+                if (property.PropertyName != "Id" && property.PropertyName != "Category" && property.PropertyName != "CategoryList")
                 {
-
                     <div class="form-group">
                         <label>@(property.DisplayName ?? property.PropertyName)</label>
                         @if (property.PropertyName == "Description")
@@ -34,10 +32,10 @@
                         }
                         else
                         {
-                            if (property.PropertyName == "Category")
+                            if (property.PropertyName == "CategoryId")
                             {
-                                @Html.TextAreaFor(m => this.Model.Category.Name,
-                                   new { @class = "form-control", rows = 1 })
+                                <label>Category</label>
+                                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, "All", new { @class = "form-control col-md-2" })
                             }
                             else
                             {
@@ -45,16 +43,15 @@
                                    new { @class = "form-control" })
                             }
                         }
-
                         @Html.ValidationMessage(property.PropertyName, new { @class = "text-danger" })
                     </div>
 
                 }
+
             }
-            <div class="panel-footer">
+            <div class="panel-footer" style="margin-top:50px">
                 <input type="submit" value="Save" class="btn btn-primary" />
-                @Html.ActionLink("Cancel.Back to list", "List", "Admin", null,
-        new { @class = "btn  btn-default " })
+                @Html.ActionLink("Cancel.Back to list", "List", "Admin", null, new { @class = "btn  btn-default " })
 
             </div>
 

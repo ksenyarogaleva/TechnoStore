@@ -8,7 +8,7 @@ namespace TechnoStore.WebUI.Models
 {
     public class TechnicsListViewModel
     {
-        public IEnumerable<Technics> Technics { get; set; }
+        public IEnumerable<Technic> Technics { get; set; }
         public string CurrentCategory { get; set; }
     }
 }

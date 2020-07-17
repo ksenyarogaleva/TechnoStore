@@ -206,10 +206,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\TechnoStore.mdf" />
-    <Content Include="App_Data\TechnoStore_log.ldf">
-      <DependentUpon>TechnoStore.mdf</DependentUpon>
-    </Content>
     <Content Include="Areas\Admin\Views\Admin\List.cshtml" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -240,6 +236,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Infrastructure\Abstract\ITechnicsRepository.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -252,14 +249,22 @@
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Providers\CustomRoleProvider.cs" />
+    <Compile Include="Migrations\202007171114398_InitialCreate.cs" />
+    <Compile Include="Migrations\202007171114398_InitialCreate.designer.cs">
+      <DependentUpon>202007171114398_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Entities\Cart\Cart.cs" />
+    <Compile Include="Models\Entities\Cart\CartIndexViewModel.cs" />
+    <Compile Include="Models\Entities\Cart\CartTechnic.cs" />
     <Compile Include="Models\Entities\Category.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Entities\Role.cs" />
-    <Compile Include="Models\Entities\Technics.cs" />
+    <Compile Include="Models\Entities\Technic.cs" />
     <Compile Include="Models\Entities\User.cs" />
     <Compile Include="Models\TechnicsListViewModel.cs" />
-    <Compile Include="Models\UserDbInitializer.cs" />
+    <Compile Include="Models\DbInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +288,8 @@
     <Content Include="Views\Shared\TechnicsSummary.cshtml" />
     <Content Include="Views\Nav\CategoriesMenu.cshtml" />
     <Content Include="Views\Shared\_EnterLayout.cshtml" />
+    <Content Include="Views\Shared\NavBar.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -291,7 +298,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202007171114398_InitialCreate.resx">
+      <DependentUpon>202007171114398_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -22,7 +22,7 @@ namespace TechnoStore.WebUI.Controllers
         public ActionResult List(string category=null)
         {
 
-            if (User.IsInRole("Admin"))
+          if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("List", "Admin",new { area = "Admin" });
             }

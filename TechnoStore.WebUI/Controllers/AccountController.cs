@@ -17,6 +17,17 @@ namespace TechnoStore.WebUI.Controllers
         public AccountController(ITechnicsRepository technicsRepository)
         {
             this.technics = technicsRepository;
+            if (this.technics.Roles.Count() == 0)
+            {
+                this.technics.Roles.AddRange(new List<Role> {
+                    new Role { Id = 1, Name="Admin"},
+                    new Role {Id=2, Name="User"} 
+                });
+
+            }
+
+            this.technics.Users.FirstOrDefault(u => u.RoleId == 1).Role = this.technics.Roles.First(r => r.Name == "Admin");
+            this.technics.Users.First(u => u.RoleId == 1).Role= this.technics.Roles.First(r => r.Name == "User");
         }
 
         public ActionResult Login()
@@ -31,7 +42,7 @@ namespace TechnoStore.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 var user = this.technics.Users
-                    .Include(u=>u.Role)
+                    .Include(u => u.Role)
                     .FirstOrDefault(u => u.Email == model.UserName && u.Password == model.Password);
 
                 if (user != null)
@@ -39,7 +50,7 @@ namespace TechnoStore.WebUI.Controllers
                     FormsAuthentication.SetAuthCookie(model.UserName, true);
                     if (user.Role.Name == "Admin")
                     {
-                        return RedirectToAction("List", "Admin");
+                        return RedirectToAction("List", "Admin",new {area="Admin" });
                     }
                     else
                     {
@@ -66,14 +77,14 @@ namespace TechnoStore.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user=this.technics.Users.Include(u=>u.Role)
+                var user = this.technics.Users.Include(u => u.Role)
                     .FirstOrDefault(u => u.Email == model.UserName);
 
                 if (user == null)
                 {
                     user = new User() { Email = model.UserName, Password = model.Password };
                     user.RoleId = 2;
-                    user.Role = this.technics.Roles.FirstOrDefault(r => r.RoleId == user.RoleId);
+                    user.Role = this.technics.Roles.FirstOrDefault(r => r.Id == user.RoleId);
 
                     this.technics.SaveUser(user);
                     //this.db.Users.Add(new User { Email = model.Name, Password = model.Password, RoleId = 2 });

@@ -1,0 +1,43 @@
+﻿@model TechnoStore.WebUI.Models.Entities.Cart.CartIndexViewModel
+
+@{
+    ViewBag.Title = "TechnoStore: your cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Your cart</h2>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th class="col-lg-1">Quantity</th>
+            <th class="col-lg-8">Technics</th>
+            <th class="text-right col-lg-1">Price</th>
+            <th class="text-right col-lg-1">Total price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var technics in Model.Cart.TechnicsInCart)
+        {
+            <tr>
+                <td class="text-center col-md" >@technics.Quantity</td>
+                <td class="text-left">@technics.Technic.Name</td>
+                <td class="text-right">@technics.Technic.Price.ToString("# $")</td>
+                <td class="text-right">
+                    @((technics.Quantity * technics.Technic.Price).ToString("# $"))
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Total:</td>
+            <td class="text-right">
+                @Model.Cart.ComputeTotalValue().ToString("# $")
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Continue shopping</a>
+</div>

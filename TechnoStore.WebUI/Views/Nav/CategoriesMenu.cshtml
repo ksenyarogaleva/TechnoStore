@@ -17,3 +17,8 @@
         @class = "btn btn-block btn-default btn-lg" + (category == ViewBag.SelectedCategory ? " btn-primary" : "")
     });
 }
+    <div style="margin-top:30px; margin-left:150px" >
+        @Html.ActionLink("Go to cart", "AddtoCart", "Cart",
+        new { returnUrl = Request.Url.PathAndQuery, technicsId = 0 },
+        new { @class="btn btn-success btn-lg"})
+    </div>

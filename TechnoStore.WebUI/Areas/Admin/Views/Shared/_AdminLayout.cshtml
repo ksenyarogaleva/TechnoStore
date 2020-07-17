@@ -15,7 +15,8 @@
     <title></title>
 </head>
 <body>
-    <div style="text-align:center">
+    @Html.Partial("NavBar")
+    <div>
         @if (TempData["message"] != null)
         {
             <div class="alert alert-success">@TempData["message"]</div>

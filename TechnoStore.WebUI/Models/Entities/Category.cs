@@ -7,13 +7,13 @@ namespace TechnoStore.WebUI.Models.Entities
 {
     public class Category
     {
-        public int CategoryId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<Technics> Technics { get; set; }
+        public virtual ICollection<Technic> Technics { get; set; }
         public Category()
         {
-            this.Technics = new List<Technics>();
+            this.Technics = new List<Technic>();
         }
     }
 }

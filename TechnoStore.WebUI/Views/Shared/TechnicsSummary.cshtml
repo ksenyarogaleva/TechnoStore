@@ -1,9 +1,14 @@
-﻿@model TechnoStore.WebUI.Models.Entities.Technics
+﻿@model TechnoStore.WebUI.Models.Entities.Technic
 
 <div class="well">
     <h3>
         <strong>@Model.Name</strong>
         <span class="pull-right label label-primary">@Model.Price.ToString("# $")</span>
     </h3>
+    <div class="pull-right">
+        @Html.ActionLink("Add to cart", "AddtoCart", "Cart",
+       new { returnUrl = Request.Url.PathAndQuery, technicsId = Model.Id },
+       new { @class="btn btn-success"})
+    </div>
     <span class="lead">@Model.Description</span>
 </div>

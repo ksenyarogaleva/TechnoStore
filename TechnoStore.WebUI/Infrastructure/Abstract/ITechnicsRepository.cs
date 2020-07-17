@@ -9,13 +9,13 @@ namespace TechnoStore.WebUI.Infrastructure.Abstract
     /// </summary>
     public interface ITechnicsRepository
     {
-        DbSet<Technics> Technics { get; set; }
+        DbSet<Technic> Technics { get; set; }
         DbSet<Category> Categories { get; set; }
         DbSet<User> Users { get; set; }
         DbSet<Role> Roles { get; set; }
 
-        void SaveTechnics(Technics technics);
+        void SaveTechnics(Technic technics);
         void SaveUser(User user);
-        Technics DeleteTechnics(int technicsId);
+        Technic DeleteTechnics(int technicsId);
     }
 }

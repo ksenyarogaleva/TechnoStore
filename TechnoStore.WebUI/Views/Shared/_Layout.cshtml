@@ -11,23 +11,10 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <div class="navbar navbar-inverse" role="navigation">
-        <form class="form-inline">
-            @Html.ActionLink("TechnoStore - technological stuff store", "List", "Technics", null, new { @class = "navbar-brand navbar-link" })
-            @if (User.Identity.IsAuthenticated)
-            {
-                @Html.ActionLink("SignOut", "Logoff", "Account", null, new { @class = "navbar-brand navbar-link pull-right" })
-                <p class="navbar-brand pull-right">@User.Identity.Name</p>
-            }
-            else
-            {
-                @Html.ActionLink("SignIn", "Login", "Account", null, new { @class = "navbar-brand navbar-link pull-right" })
-            }
-        </form>
-    </div>
+    @Html.Partial("NavBar")
     <div class="row panel">
         <div id="categories" class="col-xs-3">
-            @Html.Action("Menu", "Nav")
+            @Html.Action("Menu", "Nav", new { area = "" })
         </div>
         <div class="col-xs-8">
             @RenderBody()
