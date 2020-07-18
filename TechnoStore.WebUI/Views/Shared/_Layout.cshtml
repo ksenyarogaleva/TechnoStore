@@ -18,6 +18,15 @@
             @RenderSection("CartButton", false)
         </div>
         <div class="col-xs-8">
+            @using (Html.BeginForm("List", "Technics", FormMethod.Get))
+            {
+                <div class="form-inline" style="margin-bottom:25px;">
+                    <label>Product Name:</label>
+
+                    @Html.TextBox("searchString", "", new { @class = "form-control" })
+                    <input type="submit" class="btn btn-primary" value="Search" />
+                </div>
+            }
             @RenderBody()
         </div>
     </div>

@@ -18,34 +18,35 @@ namespace TechnoStore.WebUI.Controllers
             this.repository = technicsRepository;
         }
 
-        
-        public ActionResult List(string category=null)
+
+        public ActionResult List(string searchString=null, string category = null)
         {
 
-          if (User.IsInRole("Admin"))
+            if (User.IsInRole("Admin"))
             {
-                return RedirectToAction("List", "Admin",new { area = "Admin" });
+                return RedirectToAction("List", "Admin", new { area = "Admin" });
             }
 
             var listModel = new TechnicsListViewModel
             {
-                CurrentCategory = category
-
+                CurrentCategory = category,
             };
 
-            if (!string.IsNullOrEmpty(category))
+            var technics = this.repository.Technics.OrderBy(t => t.Name);
+
+            if (!string.IsNullOrWhiteSpace(category))
             {
-                listModel.Technics = this.repository.Technics
-                .Where(t => t.Category.Name == category)
-                .OrderBy(t => t.Name);
-            }
-            else
-            {
-                listModel.Technics = this.repository.Technics
-                    .OrderBy(t => t.Name);
+                technics = technics.Where(t=>t.Category.Name==category).OrderBy(t => t.Name);
             }
 
-            
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                technics = technics
+                    .Where(t => t.Name.ToUpper()
+                    .Contains(searchString.ToUpper())).OrderBy(t=>t.Name);
+            }
+
+            listModel.Technics = technics;
 
             return View(listModel);
         }

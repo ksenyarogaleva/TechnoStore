@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Ninject.Infrastructure.Language;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -28,11 +29,14 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
             categoryList.AddRange(categoryQuery);
             ViewBag.categoryName = new SelectList(categoryList);
 
+            
             var technicsList = this.repository.Technics.Include(t => t.Category);
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
-                technicsList = technicsList.Where(t => t.Name.Contains(searchString));
+                technicsList = technicsList
+                    .Where(t => t.Name.ToUpper()
+                    .Contains(searchString.ToUpper()));
             }
 
             if (!string.IsNullOrWhiteSpace(categoryName))

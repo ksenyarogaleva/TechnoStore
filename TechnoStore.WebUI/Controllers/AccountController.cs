@@ -17,17 +17,6 @@ namespace TechnoStore.WebUI.Controllers
         public AccountController(ITechnicsRepository technicsRepository)
         {
             this.technics = technicsRepository;
-            if (this.technics.Roles.Count() == 0)
-            {
-                this.technics.Roles.AddRange(new List<Role> {
-                    new Role { Id = 1, Name="Admin"},
-                    new Role {Id=2, Name="User"} 
-                });
-
-            }
-
-            this.technics.Users.FirstOrDefault(u => u.RoleId == 1).Role = this.technics.Roles.First(r => r.Name == "Admin");
-            this.technics.Users.First(u => u.RoleId == 1).Role= this.technics.Roles.First(r => r.Name == "User");
         }
 
         public ActionResult Login()
@@ -41,9 +30,7 @@ namespace TechnoStore.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = this.technics.Users
-                    .Include(u => u.Role)
-                    .FirstOrDefault(u => u.Email == model.UserName && u.Password == model.Password);
+                var user = this.technics.Users.FirstOrDefault(u => u.Email == model.UserName && u.Password == model.Password);
 
                 if (user != null)
                 {
