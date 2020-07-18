@@ -238,7 +238,6 @@
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
-    <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Infrastructure\Abstract\IOrderProcessor.cs" />
     <Compile Include="Infrastructure\Abstract\ITechnicsRepository.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -263,6 +262,7 @@
     <Compile Include="Models\Entities\Cart\CartIndexViewModel.cs" />
     <Compile Include="Models\Entities\Cart\CartTechnic.cs" />
     <Compile Include="Models\Entities\Category.cs" />
+    <Compile Include="Models\Pagination\Pagination.cs" />
     <Compile Include="Models\Entities\ShippingDetails.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
@@ -292,7 +292,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\TechnicsSummary.cshtml" />
-    <Content Include="Views\Nav\CategoriesMenu.cshtml" />
+    <Content Include="Views\Shared\CategoriesMenu.cshtml" />
     <Content Include="Views\Shared\_EnterLayout.cshtml" />
     <Content Include="Views\Shared\NavBar.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />

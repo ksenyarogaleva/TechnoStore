@@ -1,6 +1,6 @@
 ﻿<div class="navbar navbar-inverse" role="navigation">
     <form class="form-inline">
-        @Html.ActionLink("TechnoStore - technological stuff store", "List", null, new { @class = "navbar-brand navbar-link" })
+        @Html.ActionLink("TechnoStore - technological stuff store", "List", "Technics",null, new { @class = "navbar-brand navbar-link" })
         @if (User.Identity.IsAuthenticated)
         {
             @Html.ActionLink("SignOut", "Logoff", "Account",new { area = "" }, new { @class = "navbar-brand navbar-link pull-right" })
