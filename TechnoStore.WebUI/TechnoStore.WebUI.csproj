@@ -56,6 +56,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -220,6 +223,7 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Edit.cshtml" />
+    <Content Include="Areas\Error\Views\web.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -234,8 +238,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Error\Controllers\ErrorController.cs" />
+    <Compile Include="Areas\Error\ErrorAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Infrastructure\Abstract\IOrderProcessor.cs" />
@@ -251,6 +258,7 @@
     </Compile>
     <Compile Include="Infrastructure\Concrete\EmailOrderProcessor.cs" />
     <Compile Include="Infrastructure\Concrete\EmailSettings.cs" />
+    <Compile Include="Infrastructure\Filters\ExceptionLoggerAttribute.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Providers\CustomRoleProvider.cs" />
     <Compile Include="Migrations\202007171114398_InitialCreate.cs" />
@@ -262,6 +270,7 @@
     <Compile Include="Models\Entities\Cart\CartIndexViewModel.cs" />
     <Compile Include="Models\Entities\Cart\CartTechnic.cs" />
     <Compile Include="Models\Entities\Category.cs" />
+    <Compile Include="Models\Entities\ExceptionDetail.cs" />
     <Compile Include="Models\Pagination\Pagination.cs" />
     <Compile Include="Models\Entities\ShippingDetails.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -308,6 +317,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Error\Data\" />
+    <Folder Include="Areas\Error\Views\Error\" />
+    <Folder Include="Areas\Error\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202007171114398_InitialCreate.resx">

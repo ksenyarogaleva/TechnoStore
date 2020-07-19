@@ -64,8 +64,9 @@ namespace TechnoStore.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = this.technics.Users.Include(u => u.Role)
-                    .FirstOrDefault(u => u.Email == model.UserName);
+                var user = this.technics.Users.FirstOrDefault(u => u.Email == model.UserName);
+                //var user = this.technics.Users.Include(u => u.Role)
+                //    .FirstOrDefault(u => u.Email == model.UserName);
 
                 if (user == null)
                 {

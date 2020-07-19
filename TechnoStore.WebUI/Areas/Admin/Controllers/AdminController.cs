@@ -29,8 +29,9 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
             categoryList.AddRange(categoryQuery);
             ViewBag.categoryName = new SelectList(categoryList);
 
-            
-            var technicsList = this.repository.Technics.Include(t => t.Category);
+
+            //var technicsList = this.repository.Technics.Include(t => t.Category);
+            var technicsList = this.repository.Technics;
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
@@ -55,7 +56,7 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
 
         public ActionResult Edit(int technicsId = 0)
         {
-            var product = this.repository.Technics.Find(technicsId);
+            var product = this.repository.Technics.FirstOrDefault(t=>t.Id==technicsId);
             if (product is null)
             {
                 product = new Technic();

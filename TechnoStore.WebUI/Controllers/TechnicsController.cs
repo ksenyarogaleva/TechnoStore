@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using TechnoStore.WebUI.Infrastructure.Abstract;
 using TechnoStore.WebUI.Models.Pagination;
@@ -18,7 +21,7 @@ namespace TechnoStore.WebUI.Controllers
 
         public ActionResult List(int pageNumber = 1, string searchString = null, string category = null)
         {
-
+            throw new ArgumentOutOfRangeException();
             if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("List", "Admin", new { area = "Admin" });

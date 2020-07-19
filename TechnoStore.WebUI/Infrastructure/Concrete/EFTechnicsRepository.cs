@@ -13,11 +13,12 @@ namespace TechnoStore.WebUI.Infrastructure.Concrete
     {
         public EFDbContext context = new EFDbContext();
 
-        public DbSet<Technic> Technics { get { return context.Technics; } set { } }
-        public DbSet<Category> Categories { get { return context.Categories; } set { } }
+        public IEnumerable<Technic> Technics { get { return context.Technics; } }
+        public IEnumerable<Category> Categories { get { return context.Categories; } }
 
-        public DbSet<User> Users { get { return context.Users; } set { } }
-        public DbSet<Role> Roles { get { return context.Roles; } set { } }
+        public IEnumerable<User> Users { get { return context.Users; } }
+        public IEnumerable<Role> Roles { get { return context.Roles; } }
+        public IEnumerable<ExceptionDetail> Exceptions { get { return context.Exceptions; } }
 
         public Technic DeleteTechnics(int technicsId)
         {
@@ -38,8 +39,6 @@ namespace TechnoStore.WebUI.Infrastructure.Concrete
             {
                 this.context.Technics.Add(technics);
                 this.context.SaveChanges();
-                //добавляем в категорию новый товар
-                //this.context.Categories.First(c => c.Id == technics.CategoryId).Technics.Add(technics);
             }
             else
             {
@@ -51,8 +50,6 @@ namespace TechnoStore.WebUI.Infrastructure.Concrete
                     oldTechnics.Description = technics.Description;
                     oldTechnics.Price = technics.Price;
                     oldTechnics.CategoryId = technics.CategoryId;
-                   // oldTechnics.Category = technics.Category;
-
                 }
             }
 
