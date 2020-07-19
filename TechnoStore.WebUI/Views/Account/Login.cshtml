@@ -31,7 +31,7 @@
             <div class="text-center">
                 <input type="submit" value="Login" class="btn btn-primary" />
                 @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn  btn-primary" })
-                @Html.ActionLink("SignIn as a guest", "List", "Technics", null, new { @class = "btn  btn-primary" })
+                @Html.ActionLink("SignIn as a guest", "List", "Technics", new { area = "" }, new { @class = "btn  btn-primary" })
             </div>
         }
     </div>

@@ -19,6 +19,7 @@ namespace TechnoStore.WebUI
                 {
                     controller = "Technics",
                     action = "List",
+                    area="",
                     category = (string)null,
                 }
             );
@@ -27,14 +28,14 @@ namespace TechnoStore.WebUI
             routes.MapRoute(
                 name: "ListCategory",
                 "{category}",
-                new { controller = "Technics", action = "List" }
+                new { controller = "Technics", action = "List" ,area=""}
                 );
 
 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}",
-                defaults: new { controller = "Technics", action = "List"}
+                defaults: new { controller = "Technics", action = "List",area=""}
             );
         }
     }

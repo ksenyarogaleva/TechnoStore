@@ -1,12 +1,7 @@
 ﻿using log4net;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
-using TechnoStore.WebUI.Infrastructure.Concrete;
-using TechnoStore.WebUI.Models.Entities;
 
 namespace TechnoStore.WebUI.Infrastructure.Filters
 {
@@ -17,38 +12,27 @@ namespace TechnoStore.WebUI.Infrastructure.Filters
         {
             if (!filterContext.ExceptionHandled)
             {
-                var exceptionDetail = new ExceptionDetail()
-                {
-                    URL = filterContext.HttpContext.Request.Url.ToString(),
-                    Headers = new System.Collections.Specialized.NameValueCollection(filterContext.HttpContext.Request.Headers),
-                    ExceptionName = filterContext.Exception.Message,
-                    RequestMethod = filterContext.HttpContext.Request.HttpMethod,
-                    StackTrace = filterContext.Exception.StackTrace,
-                };
-
+                //creating log message
                 var errorMessage = new StringBuilder();
-                errorMessage.Append($"URL:{exceptionDetail.URL}");
+                errorMessage.Append($"URL:{filterContext.HttpContext.Request.Url}");
                 errorMessage.Append(Environment.NewLine);
                 errorMessage.Append($"Headers:");
-                var keys = exceptionDetail.Headers.AllKeys;
+                var keys = filterContext.HttpContext.Request.Headers.AllKeys;
                 foreach(var key in keys)
                 {
-                    errorMessage.Append($"\n\t{key}:{exceptionDetail.Headers[key]}");
+                    errorMessage.Append($"\n\t{key}:{filterContext.HttpContext.Request.Headers[key]}");
                 }
                 errorMessage.Append(Environment.NewLine);
-                errorMessage.Append($"Request method:{exceptionDetail.RequestMethod}");
+                errorMessage.Append($"Request method:{filterContext.HttpContext.Request.HttpMethod}");
                 errorMessage.Append(Environment.NewLine);
                 errorMessage.Append($"Exception with Stack Trace:");
+                
+                //logging error to file and database
                 log.Error(errorMessage.ToString(),filterContext.Exception);
 
                 filterContext.ExceptionHandled = true;
 
-                filterContext.Result = new RedirectResult("Error/Error/Index");
-
-
-
-
-
+                filterContext.Result = new RedirectResult("~/Error/Error/Index");
             }
 
         }

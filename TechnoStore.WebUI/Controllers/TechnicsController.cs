@@ -21,7 +21,6 @@ namespace TechnoStore.WebUI.Controllers
 
         public ActionResult List(int pageNumber = 1, string searchString = null, string category = null)
         {
-            throw new ArgumentOutOfRangeException();
             if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("List", "Admin", new { area = "Admin" });

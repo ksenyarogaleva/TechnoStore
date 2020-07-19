@@ -16,7 +16,7 @@ namespace TechnoStore.WebUI.Infrastructure.Concrete
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<ExceptionDetail> Exceptions { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

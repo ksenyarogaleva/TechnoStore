@@ -8,6 +8,8 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>List of technics</h3>
+        @Html.ActionLink("View errors","List","Error",new { area = "Error" }, new { @class="btn btn-primary pull-right"})
+
         @using (Html.BeginForm("List", "Admin", FormMethod.Get))
         {
             <div class="form-inline">

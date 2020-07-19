@@ -8,17 +8,16 @@ using TechnoStore.WebUI.Models.Entities;
 
 namespace TechnoStore.WebUI.Infrastructure.Concrete
 {
-    //хранилище данных
+
     public class EFTechnicsRepository : ITechnicsRepository
     {
         public EFDbContext context = new EFDbContext();
 
         public IEnumerable<Technic> Technics { get { return context.Technics; } }
         public IEnumerable<Category> Categories { get { return context.Categories; } }
-
         public IEnumerable<User> Users { get { return context.Users; } }
         public IEnumerable<Role> Roles { get { return context.Roles; } }
-        public IEnumerable<ExceptionDetail> Exceptions { get { return context.Exceptions; } }
+        public IEnumerable<Log> Logs { get { return context.Logs; } }
 
         public Technic DeleteTechnics(int technicsId)
         {
@@ -28,6 +27,7 @@ namespace TechnoStore.WebUI.Infrastructure.Concrete
                 this.context.Technics.Remove(technics);
                 this.context.SaveChanges();
             }
+
             return technics;
         }
 
@@ -61,6 +61,28 @@ namespace TechnoStore.WebUI.Infrastructure.Concrete
         {
             this.context.Users.Add(user);
             this.context.SaveChanges();
+        }
+
+        public Log DeleteError(int errorId)
+        {
+            var errorLog = this.context.Logs.Find(errorId);
+            if (errorLog != null)
+            {
+                this.context.Logs.Remove(errorLog);
+                this.context.SaveChanges();
+            }
+
+            return errorLog;
+        }
+
+        public void DelteAllErrors()
+        {
+            var deletedErrors = this.context.Logs.ToList();
+            if (this.context.Logs != null)
+            {
+                this.context.Logs.RemoveRange(deletedErrors);
+                this.context.SaveChanges();
+            }
         }
     }
 }

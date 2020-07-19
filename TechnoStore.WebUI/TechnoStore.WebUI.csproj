@@ -224,6 +224,8 @@
     <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Edit.cshtml" />
     <Content Include="Areas\Error\Views\web.config" />
+    <Content Include="Areas\Error\Views\Shared\AdminErrorPage.cshtml" />
+    <Content Include="Areas\Error\Views\Error\UserErrorPage.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -265,12 +267,16 @@
     <Compile Include="Migrations\202007171114398_InitialCreate.designer.cs">
       <DependentUpon>202007171114398_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007191554528_RenameTable.cs" />
+    <Compile Include="Migrations\202007191554528_RenameTable.designer.cs">
+      <DependentUpon>202007191554528_RenameTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entities\Cart\Cart.cs" />
     <Compile Include="Models\Entities\Cart\CartIndexViewModel.cs" />
     <Compile Include="Models\Entities\Cart\CartTechnic.cs" />
     <Compile Include="Models\Entities\Category.cs" />
-    <Compile Include="Models\Entities\ExceptionDetail.cs" />
+    <Compile Include="Models\Entities\Log.cs" />
     <Compile Include="Models\Pagination\Pagination.cs" />
     <Compile Include="Models\Entities\ShippingDetails.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -318,12 +324,13 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Error\Data\" />
-    <Folder Include="Areas\Error\Views\Error\" />
-    <Folder Include="Areas\Error\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202007171114398_InitialCreate.resx">
       <DependentUpon>202007171114398_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007191554528_RenameTable.resx">
+      <DependentUpon>202007191554528_RenameTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

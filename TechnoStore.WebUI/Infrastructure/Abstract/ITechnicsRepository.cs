@@ -1,7 +1,4 @@
-﻿
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using TechnoStore.WebUI.Models.Entities;
 
 namespace TechnoStore.WebUI.Infrastructure.Abstract
@@ -15,10 +12,12 @@ namespace TechnoStore.WebUI.Infrastructure.Abstract
         IEnumerable<Category> Categories { get; }
         IEnumerable<User> Users { get; }
         IEnumerable<Role> Roles { get; }
-        IEnumerable<ExceptionDetail> Exceptions { get; }
+        IEnumerable<Log> Logs { get; }
 
         void SaveTechnics(Technic technics);
         void SaveUser(User user);
         Technic DeleteTechnics(int technicsId);
+        Log DeleteError(int errorId);
+        void DelteAllErrors();
     }
 }
