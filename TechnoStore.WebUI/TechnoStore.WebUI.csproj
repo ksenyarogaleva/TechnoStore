@@ -227,8 +227,9 @@
     <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Edit.cshtml" />
     <Content Include="Areas\Error\Views\web.config" />
-    <Content Include="Areas\Error\Views\Shared\AdminErrorPage.cshtml" />
+    <Content Include="Areas\Error\Views\Error\AdminErrorPage.cshtml" />
     <Content Include="Areas\Error\Views\Error\UserErrorPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Profile.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -333,6 +334,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Error\Data\" />
+    <Folder Include="Areas\Error\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202007171114398_InitialCreate.resx">

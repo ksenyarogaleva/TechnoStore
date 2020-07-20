@@ -6,11 +6,11 @@
             @Html.ActionLink("SignOut", "Logoff", "Account", new { area = "" }, new { @class = "navbar-brand navbar-link pull-right" })
             if (User.IsInRole("Admin"))
             {
-                @Html.ActionLink(User.Identity.Name, "List", "Error",new{area = "Error" }, new { @class = "navbar-brand pull-right" })
+                @Html.ActionLink(User.Identity.Name, "ShowProfile", "Admin",new{area = "Admin" }, new { @class = "navbar-brand pull-right" })
             }
             else
             {
-                @Html.ActionLink(User.Identity.Name, "List","Technics", new{area = "" }, new { @class = "navbar-brand pull-right" })
+                @Html.ActionLink(User.Identity.Name, "List", "Technics", new{area = "" }, new { @class = "navbar-brand pull-right" })
             }
         }
         else

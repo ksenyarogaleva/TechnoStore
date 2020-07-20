@@ -73,6 +73,7 @@ namespace TechnoStore.WebUI.Controllers
 
             if (ModelState.IsValid)
             {
+                
                 this.orderProcessor.ProcessOrder(cart, shippingDetails);
                 cart.Clear();
 

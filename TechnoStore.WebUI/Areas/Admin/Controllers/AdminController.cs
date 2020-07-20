@@ -100,6 +100,17 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
 
             return RedirectToAction("List");
         }
+
+        public ActionResult ShowProfile()
+        {
+            var totalRequestsAmount = 0;
+            foreach(var request in this.repository.RequestStatistics)
+            {
+                totalRequestsAmount += request.Amount;
+            }
+            ViewBag.TotalAmount = totalRequestsAmount;
+            return View("Profile",this.repository.RequestStatistics);
+        }
     }
 
 

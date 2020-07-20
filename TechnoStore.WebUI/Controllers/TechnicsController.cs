@@ -63,5 +63,6 @@ namespace TechnoStore.WebUI.Controllers
 
             return PartialView("CategoriesMenu", categories);
         }
+
     }
 }
