@@ -56,7 +56,7 @@ namespace TechnoStore.WebUI.Areas.Error.Controllers
             int errorAmount = this.repository.Logs.Count();
             if (errorAmount>0)
             {
-                this.repository.DelteAllErrors();
+                this.repository.DeketeAllErrors();
                 TempData["errorDeleted"] = string.Format("{0} errors were deleted.", errorAmount);
             }
 

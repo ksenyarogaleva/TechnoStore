@@ -123,6 +123,9 @@
     <Reference Include="Ninject.Web.Common.WebHost, Version=3.3.2.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Web.Common.WebHost.3.3.2\lib\net45\Ninject.Web.Common.WebHost.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC5.3.3.0\lib\net45\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -261,6 +264,7 @@
     <Compile Include="Infrastructure\Concrete\EmailOrderProcessor.cs" />
     <Compile Include="Infrastructure\Concrete\EmailSettings.cs" />
     <Compile Include="Infrastructure\Filters\ExceptionLoggerAttribute.cs" />
+    <Compile Include="Infrastructure\Filters\RequestStatisticAttribute.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Providers\CustomRoleProvider.cs" />
     <Compile Include="Migrations\202007171114398_InitialCreate.cs" />
@@ -271,12 +275,17 @@
     <Compile Include="Migrations\202007191554528_RenameTable.designer.cs">
       <DependentUpon>202007191554528_RenameTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007192149536_AddRequestStatisticsTable.cs" />
+    <Compile Include="Migrations\202007192149536_AddRequestStatisticsTable.designer.cs">
+      <DependentUpon>202007192149536_AddRequestStatisticsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entities\Cart\Cart.cs" />
     <Compile Include="Models\Entities\Cart\CartIndexViewModel.cs" />
     <Compile Include="Models\Entities\Cart\CartTechnic.cs" />
     <Compile Include="Models\Entities\Category.cs" />
     <Compile Include="Models\Entities\Log.cs" />
+    <Compile Include="Models\Entities\RequestStatistic.cs" />
     <Compile Include="Models\Pagination\Pagination.cs" />
     <Compile Include="Models\Entities\ShippingDetails.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -331,6 +340,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007191554528_RenameTable.resx">
       <DependentUpon>202007191554528_RenameTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007192149536_AddRequestStatisticsTable.resx">
+      <DependentUpon>202007192149536_AddRequestStatisticsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

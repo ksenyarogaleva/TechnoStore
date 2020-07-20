@@ -13,11 +13,13 @@ namespace TechnoStore.WebUI.Infrastructure.Abstract
         IEnumerable<User> Users { get; }
         IEnumerable<Role> Roles { get; }
         IEnumerable<Log> Logs { get; }
+        IEnumerable<RequestStatistic> RequestStatistics { get;}
 
         void SaveTechnics(Technic technics);
         void SaveUser(User user);
+        void SaveRequest(RequestStatistic request);
         Technic DeleteTechnics(int technicsId);
         Log DeleteError(int errorId);
-        void DelteAllErrors();
+        void DeketeAllErrors();
     }
 }

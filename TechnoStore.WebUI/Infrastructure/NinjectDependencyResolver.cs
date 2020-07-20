@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Ninject;
+using Ninject.Web.Mvc.FilterBindingSyntax;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using TechnoStore.WebUI.Infrastructure.Abstract;
 using TechnoStore.WebUI.Infrastructure.Concrete;
+using TechnoStore.WebUI.Infrastructure.Filters;
 
 namespace TechnoStore.WebUI.Infrastructure
 {
@@ -34,18 +36,10 @@ namespace TechnoStore.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            //    // Имитированная реализация ITechnicsRepository, которая будет замещать хранилище данных до тех пор,пока не дойду руки до него
-            //    Mock<ITechnicsRepository> mock = new Mock<ITechnicsRepository>();
-            //    mock.Setup(t => t.Technics).Returns(new List<Technics>
-            //    {
-            //        new Technics{Name="Apple IPhone 7",Price=500.5m},
-            //        new Technics{Name="Apple MacBook Pro 15'",Price=1499},
-            //        new Technics{Name="Apple AirPods",Price=129.99m}
-
-            //    });
-
             //repositoy creation
-            this.kernel.Bind<ITechnicsRepository>().To<EFTechnicsRepository>();
+            this.kernel.Bind<ITechnicsRepository>().To<EFTechnicsRepository>()
+                .WithConstructorArgument("dbContext", new EFDbContext());
+
 
             //order processing creation
             EmailSettings emailSettings = new EmailSettings

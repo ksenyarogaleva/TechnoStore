@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TechnoStore.WebUI.Infrastructure.Abstract;
+using TechnoStore.WebUI.Infrastructure.Filters;
 using TechnoStore.WebUI.Models.Entities;
 using TechnoStore.WebUI.Models.Entities.Cart;
 
 namespace TechnoStore.WebUI.Controllers
 {
+    [RequestStatistic]
     public class CartController : Controller
     {
         private ITechnicsRepository repository;

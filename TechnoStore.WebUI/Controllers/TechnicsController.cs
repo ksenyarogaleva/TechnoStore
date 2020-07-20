@@ -5,10 +5,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TechnoStore.WebUI.Infrastructure.Abstract;
+using TechnoStore.WebUI.Infrastructure.Filters;
 using TechnoStore.WebUI.Models.Pagination;
 
 namespace TechnoStore.WebUI.Controllers
 {
+    [RequestStatistic]
     public class TechnicsController : Controller
     {
         private ITechnicsRepository repository;
