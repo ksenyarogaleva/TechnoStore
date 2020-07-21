@@ -4,6 +4,6 @@ namespace TechnoStore.BLL.Interfaces
 {
     public interface IServiceCreator
     {
-        IUserService CreateUserService(ApplicationContext context);
+        IUserService CreateUserService(string connectionString);
     }
 }

@@ -18,9 +18,9 @@ namespace TechnoStore.DAL.Repositories
 
         public ApplicationRoleManager RoleManager { get; private set; }
 
-        public UnitOfWork(ApplicationContext applicationContext)
+        public UnitOfWork(string connectionString)
         {
-            this.context = applicationContext;
+            this.context = new ApplicationContext(connectionString);
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(this.context));
             RoleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(this.context));
             ClientManager = new ClientManager(this.context);
