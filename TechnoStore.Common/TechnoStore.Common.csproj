@@ -57,9 +57,13 @@
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Entities\ApplicationRole.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\ClientProfile.cs" />
+    <Compile Include="Entities\Technic.cs" />
     <Compile Include="Infrastructure\OperationDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

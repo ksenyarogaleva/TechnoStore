@@ -6,9 +6,10 @@ namespace TechnoStore.DAL.Interfaces
 {
     public interface IUnitOfWork:IDisposable
     {
-        ApplicationUserManager UserManager { get; }
+        ITechnicRepository Technics { get; }
+        ICategoryRepository Categories { get; }
         IClientManager ClientManager { get; }
+        ApplicationUserManager UserManager { get; }
         ApplicationRoleManager RoleManager { get; }
-        Task SaveAsync();
     }
 }

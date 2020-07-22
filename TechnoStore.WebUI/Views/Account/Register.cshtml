@@ -1,4 +1,4 @@
-﻿@model TechnoStore.WebUI.Models.RegisterModel
+﻿@model TechnoStore.Common.ViewModels.RegisterViewModel
 
 @{
     ViewBag.Title = "Registration";
@@ -8,33 +8,45 @@
 
 <h2 class="text-center">Registration</h2>
 <div class="panel">
-    <div class="panel-body" >
+    <div class="panel-body">
         @{Html.EnableClientValidation();}
         @{Html.EnableUnobtrusiveJavaScript();}
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group text-center" >
+            <div class="form-group text-center">
                 <label>User Name:</label>
-                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", style = "width:300px;margin:auto" })
-                @Html.ValidationMessageFor(m => Model.UserName, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", style = "width:300px;margin:auto" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group text-center">
                 <label>Password:</label>
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control", style = "width:300px;margin:auto" })
-                @Html.ValidationMessageFor(m => Model.Password, "", new { @class = "text-danger" })
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control", style = "width:300px;margin:auto" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group text-center">
                 <label>Confirm password</label>
                 @Html.PasswordFor(model => model.ConfirmPassword, new { @class = " form-control ", style = "width:300px;margin:auto" })
-                @Html.ValidationMessageFor(m => Model.ConfirmPassword, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group text-center">
+                <label>Password:</label>
+                @Html.TextBoxFor(model => model.Address, new { @class = "form-control", style = "width:300px;margin:auto" })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group text-center">
+                <label>Confirm password</label>
+                @Html.TextBoxFor(model => model.Name, new { @class = " form-control ", style = "width:300px;margin:auto" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
 
             <div class="text-center">
-                <input type="submit" value="Sign In" class="btn btn-primary"  style="margin:auto"/>
+                <input type="submit" value="Sign In" class="btn btn-primary" style="margin:auto" />
             </div>
         }
     </div>

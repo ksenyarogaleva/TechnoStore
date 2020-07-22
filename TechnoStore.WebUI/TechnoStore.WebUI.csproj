@@ -309,7 +309,6 @@
     <Compile Include="Models\Entities\Cart\Cart.cs" />
     <Compile Include="Models\Entities\Cart\CartIndexViewModel.cs" />
     <Compile Include="Models\Entities\Cart\CartTechnic.cs" />
-    <Compile Include="Models\Entities\Category.cs" />
     <Compile Include="Models\Entities\Log.cs" />
     <Compile Include="Models\Entities\RequestStatistic.cs" />
     <Compile Include="Models\Pagination\Pagination.cs" />
@@ -317,7 +316,6 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Entities\Role.cs" />
-    <Compile Include="Models\Entities\Technic.cs" />
     <Compile Include="Models\Entities\User.cs" />
     <Compile Include="Models\TechnicsListViewModel.cs" />
     <Compile Include="Models\DbInitializer.cs" />
@@ -348,6 +346,7 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\Checkout.cshtml" />
     <Content Include="Views\Cart\Completed.cshtml" />
+    <Content Include="Views\Account\SuccessRegistration.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
