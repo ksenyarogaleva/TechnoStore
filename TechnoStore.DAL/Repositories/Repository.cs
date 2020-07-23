@@ -33,7 +33,7 @@ namespace TechnoStore.DAL.Repositories
             return await this.context.Set<TEntity>().ToListAsync();
         }
 
-        public async Task<TEntity> GetAsync(int id)
+        public async Task<TEntity> GetSingleAsync(int id)
         {
             return await this.context.Set<TEntity>().FindAsync(id);
         }

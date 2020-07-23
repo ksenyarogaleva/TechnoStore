@@ -11,5 +11,7 @@ namespace TechnoStore.DAL.Interfaces
         IClientManager ClientManager { get; }
         ApplicationUserManager UserManager { get; }
         ApplicationRoleManager RoleManager { get; }
+
+        Task SaveAsync();
     }
 }

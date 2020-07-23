@@ -49,5 +49,9 @@ namespace TechnoStore.DAL.Repositories
             }
         }
 
+        public async Task SaveAsync()
+        {
+            await this.context.SaveChangesAsync();
+        }
     }
 }
