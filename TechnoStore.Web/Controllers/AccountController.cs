@@ -124,7 +124,7 @@ namespace TechnoStore.Web.Controllers
                 }
                 else
                 {
-                    //AuthenticationManager.SignOut();
+                    AuthenticationManager.SignOut();
                     AuthenticationManager.SignIn(new AuthenticationProperties
                     {
                         IsPersistent = true

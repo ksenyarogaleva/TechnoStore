@@ -1,0 +1,50 @@
+﻿
+
+@{
+    ViewBag.Title = "Admin profile";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <h3>Users request statistics</h3>
+        </div>
+
+        <div class="panel-body center-block text-center " style="width:500px">
+            <table class="table table-striped table-condensed table-bordered table-hover ">
+                <thead>
+                    <tr>
+                        <th class="text-right col-xs-1">ID</th>
+                        <th class="text-center col-xs-5">URL</th>
+                        <th class="col-xs-1 text-center">Amount of requests</th>
+                        <th class="text-center col-lg-1">Total amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model)
+                    {
+                        <tr>
+                            <td class="text-right">@request.Id</td>
+                            <td>@request.URL</td>
+                            <td>@request.Amount</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right">Total:</td>
+                        <td class="text-right">
+                           @ViewBag.TotalAmount
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class=" panel-footer btn-group-lg text-center" style="margin-top:25px;margin-bottom:25px">
+            @Html.ActionLink("Back to products", "List", "Admin", new { area = "Admin" }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("View errors", "List", "Error", new { area = "Error" }, new { @class = "btn btn-primary" })
+        </div>
+
+    </div>
+
