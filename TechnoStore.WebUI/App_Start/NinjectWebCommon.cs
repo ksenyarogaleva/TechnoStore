@@ -11,6 +11,7 @@ namespace TechnoStore.WebUI.App_Start
     using Ninject;
     using Ninject.Web.Common;
     using Ninject.Web.Common.WebHost;
+    using TechnoStore.WebUI.Infrastructure;
 
     public static class NinjectWebCommon
     {
@@ -61,8 +62,13 @@ namespace TechnoStore.WebUI.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+        //    System.Web.Mvc.DependencyResolver.SetResolver(new
+        //TechnoStore.WebUI.Infrastructure.NinjectDependencyResolver(kernel));
+
+
+
             System.Web.Mvc.DependencyResolver.SetResolver(new
-        TechnoStore.WebUI.Infrastructure.NinjectDependencyResolver(kernel));
+        TechnoStore.WebUI.Infrastructure.NinjectDependencyResolver(KernelHolder.Kernel));
         }
     }
 }

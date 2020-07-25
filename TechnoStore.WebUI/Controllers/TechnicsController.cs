@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using TechnoStore.WebUI.Infrastructure.Abstract;
-using TechnoStore.WebUI.Infrastructure.Filters;
-using TechnoStore.WebUI.Models.Pagination;
+using TechnoStore.BLL.Interfaces;
+using TechnoStore.Common.Infrastructure;
 
 namespace TechnoStore.WebUI.Controllers
 {
-    [RequestStatistic]
+    
     public class TechnicsController : Controller
     {
-        private ITechnicsRepository repository;
+        private ITechnicService technicService;
+        private ICategoryService categoryService;
         private const int pageSize = 3;
 
-        public TechnicsController(ITechnicsRepository technicsRepository)
+        public TechnicsController(ITechnicService technicService, ICategoryService categoryService)
         {
-            this.repository = technicsRepository;
+            this.technicService = technicService;
+            this.categoryService = categoryService;
         }
 
         public ActionResult List(int pageNumber = 1, string searchString = null, string category = null)
@@ -28,12 +27,11 @@ namespace TechnoStore.WebUI.Controllers
                 return RedirectToAction("List", "Admin", new { area = "Admin" });
             }
 
-
-            var technics = this.repository.Technics.OrderBy(t => t.Name);
+            var technics = this.technicService.GetAll();
 
             if (!string.IsNullOrWhiteSpace(category))
             {
-                technics = technics.Where(t => t.Category.Name == category).OrderBy(t => t.Name);
+                technics = technics.Where(t => t.Category == category).OrderBy(t => t.Name);
             }
 
             if (!string.IsNullOrWhiteSpace(searchString))
@@ -44,16 +42,17 @@ namespace TechnoStore.WebUI.Controllers
             }
 
 
-            var listModel = Pagination.GetPagedData(technics.ToList(), pageNumber, pageSize);
-            listModel.SearchingString = searchString;
-            listModel.CurrentCategory = category;
-            return View(listModel);
+            var viewModel = technics.ToList().GetPagedData(pageNumber, pageSize);
+            viewModel.SearchingString = searchString;
+            viewModel.CurrentCategory = category;
+            return View(viewModel);
         }
 
         public PartialViewResult Menu(string category = null,string searchString=null,int pageNumber=1)
         {
             ViewBag.SelectedCategory = category;
-            IEnumerable<string> categories = this.repository.Categories
+            IEnumerable<string> categories = this.categoryService
+                .GetAll()
                 .Select(c => c.Name)
                 .Distinct()
                 .OrderBy(c => c);

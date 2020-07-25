@@ -25,7 +25,7 @@ namespace TechnoStore.BLL.Services
             ApplicationUser user = await this.unitOfWork.UserManager.FindByEmailAsync(userDto.Email);
             if (user is null)
             {
-                user = new ApplicationUser { Email = userDto.Email, UserName = userDto.UserName };
+                user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email };
                 var result = await this.unitOfWork.UserManager.CreateAsync(user, userDto.Password);
                 if (result.Errors.Count() > 0)
                 {

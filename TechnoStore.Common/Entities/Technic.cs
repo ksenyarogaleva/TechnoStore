@@ -25,8 +25,8 @@ namespace TechnoStore.Common.Entities
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
-        [Display(Name = "Category")]
-        public IEnumerable<SelectListItem> CategoryList { get; set; }
+        //[Display(Name = "Category")]
+        //public IEnumerable<SelectListItem> CategoryList { get; set; }
 
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }

@@ -15,16 +15,17 @@ namespace TechnoStore.DAL.Repositories
 
         public async Task CreateAsync(Technic item)
         {
-            base.context.Technics.Add(item);
+            context.Technics.Add(item);
             await base.context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Technic item)
         {
-            var technic = base.FindAsync(t => t.Id == item.Id);
+            var technic = Task.Run(async () =>
+            await this.GetSingleAsync(item.Id)).Result;
             if (technic != null)
             {
-                base.context.Technics.Remove(item);
+                base.context.Technics.Remove(technic);
                 await base.context.SaveChangesAsync();
             }
         }

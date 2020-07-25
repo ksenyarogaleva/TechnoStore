@@ -10,7 +10,7 @@ using TechnoStore.WebUI.Models.Entities.Cart;
 
 namespace TechnoStore.WebUI.Controllers
 {
-    [RequestStatistic]
+    //[RequestStatistic]
     public class CartController : Controller
     {
         private ITechnicsRepository repository;

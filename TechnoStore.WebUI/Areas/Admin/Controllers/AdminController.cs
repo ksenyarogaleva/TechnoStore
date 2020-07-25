@@ -1,29 +1,28 @@
-﻿using Ninject.Infrastructure.Language;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Mvc;
-using TechnoStore.WebUI.Infrastructure.Abstract;
-using TechnoStore.WebUI.Models.Entities;
+using TechnoStore.BLL.Interfaces;
+using TechnoStore.Common.DTO;
 
 namespace TechnoStore.WebUI.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private ITechnicsRepository repository;
-        public AdminController(ITechnicsRepository technicsRepository)
+        private ITechnicService technicService;
+        private ICategoryService categoryService;
+        public AdminController(ITechnicService technicService,ICategoryService categoryService)
         {
-            this.repository = technicsRepository;
+            this.technicService = technicService;
+            this.categoryService = categoryService;
         }
 
         public ActionResult List(string searchString, string categoryName)
         {
             var categoryList = new List<string>();
 
-            var categoryQuery = from d in repository.Categories
+            var categoryQuery = from d in categoryService.GetAll()
                                 orderby d.Name
                                 select d.Name;
 
@@ -31,8 +30,7 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
             ViewBag.categoryName = new SelectList(categoryList);
 
 
-            //var technicsList = this.repository.Technics.Include(t => t.Category);
-            var technicsList = this.repository.Technics;
+            var technicsList = this.technicService.GetAll();
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
@@ -43,7 +41,7 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
 
             if (!string.IsNullOrWhiteSpace(categoryName))
             {
-                technicsList = technicsList.Where(t => t.Category.Name == categoryName);
+                technicsList = technicsList.Where(t => t.Category == categoryName);
             }
 
 
@@ -57,26 +55,25 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
 
         public ActionResult Edit(int technicsId = 0)
         {
-            var product = this.repository.Technics.FirstOrDefault(t=>t.Id==technicsId);
-            if (product is null)
-            {
-                product = new Technic();
-            }
-            product.CategoryList = new SelectList(this.repository.Categories, "Id", "Name");
+            var product = this.technicService.GetTechnicForEdit(technicsId);
+            
+            product.Categories = new SelectList(this.categoryService.GetAll(), "Id", "Name");
 
             return View(product);
         }
 
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Price,CategoryId")] Technic technics)
+        public ActionResult Edit(TechnicEditDTO technic)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    this.repository.SaveTechnics(technics);
+                    var dto = technic.Technic;
+                    dto.Category = this.categoryService.GetSingle(technic.CategoryId).Name;
+                    this.technicService.UpdateTechnic(dto);
 
-                    TempData["message"] = string.Format("Changes in product \"{0}\" were saved.", technics.Name);
+                    TempData["message"] = string.Format("Changes in product \"{0}\" were saved.", technic.Technic.Name);
                     return RedirectToAction("List");
                 }
             }
@@ -85,31 +82,30 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
 
-            technics.CategoryList = new SelectList(this.repository.Categories, "ID", "Name");
-            return View(technics);
+            technic.Categories = new SelectList(this.categoryService.GetAll(), "Id", "Name");
+            return View(technic);
         }
 
         [HttpPost]
         public ActionResult Delete(int technicsId)
         {
-            var deletedTechnics = this.repository.DeleteTechnics(technicsId);
-            if (deletedTechnics != null)
-            {
-                TempData["message"] = string.Format("Product \"{0}\" was deleted.", deletedTechnics.Name);
-            }
+            var deletedTechnic = this.technicService.GetSingle(technicsId);
+            this.technicService.DeleteTechnic(deletedTechnic);
+                TempData["message"] = string.Format("Product \"{0}\" was deleted.", deletedTechnic.Name);
 
             return RedirectToAction("List");
         }
 
         public ActionResult ShowProfile()
         {
-            var totalRequestsAmount = 0;
-            foreach(var request in this.repository.RequestStatistics)
-            {
-                totalRequestsAmount += request.Amount;
-            }
-            ViewBag.TotalAmount = totalRequestsAmount;
-            return View("Profile",this.repository.RequestStatistics);
+            //var totalRequestsAmount = 0;
+            //foreach(var request in this.repository.RequestStatistics)
+            //{
+            //    totalRequestsAmount += request.Amount;
+            //}
+            //ViewBag.TotalAmount = totalRequestsAmount;
+            //return View("Profile",this.repository.RequestStatistics);
+            return Content("");
         }
     }
 

@@ -7,7 +7,7 @@ namespace TechnoStore.WebUI
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new ExceptionLoggerAttribute());
+            //filters.Add(new ExceptionLoggerAttribute());
         }
     }
 }

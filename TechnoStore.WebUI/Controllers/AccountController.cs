@@ -13,9 +13,6 @@ using TechnoStore.BLL.Interfaces;
 using TechnoStore.Common.DTO;
 using TechnoStore.Common.Infrastructure;
 using TechnoStore.Common.ViewModels;
-using TechnoStore.WebUI.Infrastructure.Abstract;
-using TechnoStore.WebUI.Models;
-using TechnoStore.WebUI.Models.Entities;
 
 namespace TechnoStore.WebUI.Controllers
 {
@@ -95,11 +92,12 @@ namespace TechnoStore.WebUI.Controllers
         //    }
         //    return View(model);
         //}
-        //public ActionResult Logoff()
-        //{
-        //    FormsAuthentication.SignOut();
-        //    return RedirectToAction("List", "Technics");
-        //}
+
+        public ActionResult Logoff()
+        {
+            AuthenticationManager.SignOut();
+            return RedirectToAction("List", "Technics");
+        }
 
         private IUserService UserService { get { return HttpContext.GetOwinContext().GetUserManager<IUserService>(); } }
 
@@ -126,7 +124,7 @@ namespace TechnoStore.WebUI.Controllers
                 }
                 else
                 {
-                    AuthenticationManager.SignOut();
+                    //AuthenticationManager.SignOut();
                     AuthenticationManager.SignIn(new AuthenticationProperties
                     {
                         IsPersistent = true

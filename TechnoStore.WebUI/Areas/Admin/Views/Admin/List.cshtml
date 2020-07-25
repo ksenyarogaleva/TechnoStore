@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TechnoStore.WebUI.Models.Entities.Technic>
+﻿@model IEnumerable<TechnoStore.Common.DTO.TechnicDTO>
 
 @{
     ViewBag.Title = "Admin panel: list of products";
@@ -37,7 +37,7 @@
                 <tr>
                     <td class="text-right">@item.Id</td>
                     <td>@Html.ActionLink(item.Name, "Edit", new { technicsId = item.Id })</td>
-                    <td>@item.Category.Name</td>
+                    <td>@item.Category</td>
                     <td width="700px">@item.Description</td>
                     <td class="text-right">@item.Price.ToString("# $")</td>
                     <td class="text-center">

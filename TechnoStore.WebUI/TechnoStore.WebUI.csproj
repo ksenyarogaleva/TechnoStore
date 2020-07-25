@@ -15,7 +15,7 @@
     <AssemblyName>TechnoStore.WebUI</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress />
+    <Use64BitIISExpress>false</Use64BitIISExpress>
     <IISExpressSSLPort>44342</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -277,12 +277,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Infrastructure\Abstract\IOrderProcessor.cs" />
-    <Compile Include="Infrastructure\Abstract\ITechnicsRepository.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
-    <Compile Include="Infrastructure\Concrete\EFDbContext.cs" />
-    <Compile Include="Infrastructure\Concrete\EFTechnicsRepository.cs" />
     <Compile Include="Controllers\TechnicsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -290,9 +287,8 @@
     <Compile Include="Infrastructure\Concrete\EmailOrderProcessor.cs" />
     <Compile Include="Infrastructure\Concrete\EmailSettings.cs" />
     <Compile Include="Infrastructure\Filters\ExceptionLoggerAttribute.cs" />
-    <Compile Include="Infrastructure\Filters\RequestStatisticAttribute.cs" />
+    <Compile Include="Infrastructure\KernelHolder.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
-    <Compile Include="Infrastructure\Providers\CustomRoleProvider.cs" />
     <Compile Include="Migrations\202007171114398_InitialCreate.cs" />
     <Compile Include="Migrations\202007171114398_InitialCreate.designer.cs">
       <DependentUpon>202007171114398_InitialCreate.cs</DependentUpon>
@@ -311,14 +307,7 @@
     <Compile Include="Models\Entities\Cart\CartTechnic.cs" />
     <Compile Include="Models\Entities\Log.cs" />
     <Compile Include="Models\Entities\RequestStatistic.cs" />
-    <Compile Include="Models\Pagination\Pagination.cs" />
     <Compile Include="Models\Entities\ShippingDetails.cs" />
-    <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\Entities\Role.cs" />
-    <Compile Include="Models\Entities\User.cs" />
-    <Compile Include="Models\TechnicsListViewModel.cs" />
-    <Compile Include="Models\DbInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
