@@ -18,9 +18,9 @@ namespace TechnoStore.DAL.Repositories
         public ITechnicRepository Technics { get; private set; }
         public ICategoryRepository Categories { get; private set; }
 
-        public UnitOfWork(string connectionString)
+        public UnitOfWork()
         {
-            this.context = new ApplicationContext(connectionString);
+            this.context = new ApplicationContext();
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(this.context));
             RoleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(this.context));
             ClientManager = new ClientManager(this.context);

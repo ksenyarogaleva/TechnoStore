@@ -6,7 +6,7 @@ namespace TechnoStore.DAL.Context
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationContext(string connectionString) :base(connectionString) { }
+        public ApplicationContext() :base("TechnoStoreDB") { }
 
         public DbSet<ClientProfile> ClientProfiles { get; set; }
         public DbSet<Technic> Technics { get; set; }

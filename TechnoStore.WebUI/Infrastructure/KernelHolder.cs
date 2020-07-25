@@ -19,7 +19,7 @@ namespace TechnoStore.WebUI.Infrastructure
             {
                 if (kernel == null)
                 {
-                    NinjectModule serviceModule = new ServiceModule("TechnoStoreDB");
+                    NinjectModule serviceModule = new ServiceModule();
                     //TODO Create ForumModule
                     kernel = new StandardKernel(serviceModule);
                 }

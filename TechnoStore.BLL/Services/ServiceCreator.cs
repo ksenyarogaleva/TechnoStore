@@ -5,7 +5,7 @@ namespace TechnoStore.BLL.Services
 {
     public class ServiceCreator : IServiceCreator
     {
-        public IUserService CreateUserService(string connectionString)
-            => new UserService(new UnitOfWork(connectionString));
+        public IUserService CreateUserService()
+            => new UserService(new UnitOfWork());
     }
 }

@@ -1,21 +1,24 @@
-﻿<div class="navbar navbar-inverse" role="navigation">
-    <form class="form-inline">
-        @Html.ActionLink("TechnoStore - technological stuff store", "List", "Technics", new { area = "" }, new { @class = "navbar-brand navbar-link" })
+﻿<div class="navbar navbar-inverse form-inline">
+    <div >
+        @Html.ActionLink("TechnoStore - technological stuff store", "List", "Technics", new { area = "" }, new { @class = "navbar-brand"})
+    </div>
+    <div class="pull-right">
         @if (User.Identity.IsAuthenticated)
         {
-            @Html.ActionLink("SignOut", "Logoff", "Account", new { area = "" }, new { @class = "navbar-brand navbar-link pull-right" })
+            @Html.ActionLink("SignOut", "Logoff", "Account", new { area = "" }, new { @class = "navbar-brand " })
             if (User.IsInRole("Admin"))
             {
-                @Html.ActionLink(User.Identity.Name, "ShowProfile", "Admin",new{area = "Admin" }, new { @class = "navbar-brand pull-right" })
+                @Html.ActionLink(User.Identity.Name, "ShowProfile", "Admin", new { area = "Admin" }, new { @class = "navbar-brand " })
             }
             else
             {
-                @Html.ActionLink(User.Identity.Name, "List", "Technics", new{area = "" }, new { @class = "navbar-brand pull-right" })
+                @Html.ActionLink(User.Identity.Name, "List", "Technics", new { area = "" }, new { @class = "navbar-brand " })
             }
         }
         else
         {
-            @Html.ActionLink("SignIn", "Login", "Account", new { area = "" }, new { @class = "navbar-brand navbar-link pull-right" })
+            @Html.ActionLink("SignIn", "Login", "Account", new { area = "" }, new { @class = "navbar-brand " })
         }
-    </form>
+    </div>
+        
 </div>

@@ -5,10 +5,13 @@
     ViewBag.Title = "Products";
 }
 
-<div class="row panel">
+<div class="row">
 
     <div id="categories" class="col-xs-3">
-        @Html.Action("Menu", "Technics", new { category = Model.CurrentCategory, searchString = Model.SearchingString, pageNumber = Model.CurrentPage })
+        <div>
+
+            @Html.Action("Menu", "Technics", new { category = Model.CurrentCategory, searchString = Model.SearchingString, pageNumber = Model.CurrentPage })
+        </div>
 
         <div style="margin-top:30px; margin-left:150px">
             @Html.ActionLink("Go to cart", "AddtoCart", "Cart",
@@ -27,11 +30,12 @@
                 @Html.TextBox("searchString", "", new { @class = "form-control" })
                 <input type="submit" class="btn btn-primary" value="Search" />
             </div>
+            <div id="technicsSummary">
+                @Html.Partial("TechnicsSummary", Model)
+            </div>
         }
 
-        <div id="technicsSummary">
-            @Html.Partial("TechnicsSummary", Model)
-        </div>
+
 
     </div>
 
