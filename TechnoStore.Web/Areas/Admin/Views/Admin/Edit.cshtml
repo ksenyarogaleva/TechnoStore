@@ -49,7 +49,7 @@
                         <div class="form-group">
                             <label>Category</label>
                             @Html.DropDownListFor(model => model.CategoryId, Model.Categories, "All", new { @class = "form-control col-md-2" })
-                            @Html.ValidationMessage("CategoryId", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.CategoryId,"", new { @class = "text-danger" })
                         </div>
                     }
                 }

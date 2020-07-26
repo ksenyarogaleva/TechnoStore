@@ -1,11 +1,9 @@
 ﻿using Ninject;
 using Ninject.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Ninject.Web.Mvc.FilterBindingSyntax;
 using TechnoStore.BLL.Infrastructure;
 using TechnoStore.BLL.Interfaces;
+using TechnoStore.Web.Infrastructure.Filters;
 
 namespace TechnoStore.Web.Infrastructure
 {
@@ -22,11 +20,13 @@ namespace TechnoStore.Web.Infrastructure
                     NinjectModule serviceModule = new ServiceModule();
                     //TODO Create ForumModule
                     kernel = new StandardKernel(serviceModule);
+                    kernel.BindFilter<RequestStatisticAttribute>(System.Web.Mvc.FilterScope.Controller, 0)
+                        .WhenControllerHas< RequestStatisticAttribute>();
                 }
                 return kernel;
             }
         }
-
+        
         public static IUserService CreateUserService()
         {
             return KernelHolder.Kernel.Get<IUserService>();

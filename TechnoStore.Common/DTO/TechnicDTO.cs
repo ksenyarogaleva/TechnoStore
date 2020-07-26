@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TechnoStore.Common.DTO
 {
@@ -21,7 +16,6 @@ namespace TechnoStore.Common.DTO
 
         [Display(Name ="Price (USD)")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
-        [Required]
         [Range(0.01,double.MaxValue,ErrorMessage ="Please, enter product price more than 0")]
         public decimal Price { get; set; }
         

@@ -11,5 +11,7 @@ namespace TechnoStore.DAL.Context
         public DbSet<ClientProfile> ClientProfiles { get; set; }
         public DbSet<Technic> Technics { get; set; }
         public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Request> Requests { get; set; }
     }
 }

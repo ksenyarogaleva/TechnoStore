@@ -61,11 +61,16 @@
     <Compile Include="Interfaces\ICategoryRepository.cs" />
     <Compile Include="Interfaces\IClientManager.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\IRequestRepository.cs" />
     <Compile Include="Interfaces\ITechnicRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Migrations\202007251259561_FirstMigration.cs" />
     <Compile Include="Migrations\202007251259561_FirstMigration.designer.cs">
       <DependentUpon>202007251259561_FirstMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007261152344_AddRequestEntity.cs" />
+    <Compile Include="Migrations\202007261152344_AddRequestEntity.designer.cs">
+      <DependentUpon>202007261152344_AddRequestEntity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,12 +79,16 @@
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\ClientManager.cs" />
     <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Repositories\RequestRepository.cs" />
     <Compile Include="Repositories\TechnicRepository.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202007251259561_FirstMigration.resx">
       <DependentUpon>202007251259561_FirstMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007261152344_AddRequestEntity.resx">
+      <DependentUpon>202007261152344_AddRequestEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

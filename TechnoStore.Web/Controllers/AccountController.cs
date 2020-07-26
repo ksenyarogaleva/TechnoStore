@@ -129,7 +129,14 @@ namespace TechnoStore.Web.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction("List", "Technics");
+                    if (User.IsInRole("Admin"))
+                    {
+                        return RedirectToAction("List", "Admin", new { area = "Admin" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("List", "Technics");
+                    }
                 }
             }
 

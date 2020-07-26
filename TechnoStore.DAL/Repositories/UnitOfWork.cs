@@ -17,6 +17,7 @@ namespace TechnoStore.DAL.Repositories
         public ApplicationRoleManager RoleManager { get; private set; }
         public ITechnicRepository Technics { get; private set; }
         public ICategoryRepository Categories { get; private set; }
+        public IRequestRepository Requests { get; private set; }
 
         public UnitOfWork()
         {
@@ -26,6 +27,7 @@ namespace TechnoStore.DAL.Repositories
             ClientManager = new ClientManager(this.context);
             Technics = new TechnicRepository(this.context);
             Categories = new CategoryRepository(this.context);
+            Requests = new RequestRepository(this.context);
         }
 
         public void Dispose()

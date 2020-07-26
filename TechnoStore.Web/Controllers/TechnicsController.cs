@@ -4,10 +4,11 @@ using System.Linq;
 using System.Web.Mvc;
 using TechnoStore.BLL.Interfaces;
 using TechnoStore.Common.Infrastructure;
+using TechnoStore.Web.Infrastructure.Filters;
 
 namespace TechnoStore.Web.Controllers
 {
-    
+    [RequestStatistic]
     public class TechnicsController : Controller
     {
         private ITechnicService technicService;
@@ -40,7 +41,6 @@ namespace TechnoStore.Web.Controllers
                     .Where(t => t.Name.ToUpper()
                     .Contains(searchString.ToUpper())).OrderBy(t => t.Name);
             }
-
 
             var viewModel = technics.ToList().GetPagedData(pageNumber, pageSize);
             viewModel.SearchingString = searchString;

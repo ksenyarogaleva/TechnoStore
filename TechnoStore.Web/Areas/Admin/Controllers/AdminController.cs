@@ -5,17 +5,19 @@ using System.Web.Mvc;
 using TechnoStore.BLL.Interfaces;
 using TechnoStore.Common.DTO;
 
-namespace TechnoStore.WebUI.Areas.Admin.Controllers
+namespace TechnoStore.Web.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private ITechnicService technicService;
         private ICategoryService categoryService;
-        public AdminController(ITechnicService technicService,ICategoryService categoryService)
+        private IRequestService requestService;
+        public AdminController(ITechnicService technicService, ICategoryService categoryService,IRequestService requestService)
         {
             this.technicService = technicService;
             this.categoryService = categoryService;
+            this.requestService = requestService;
         }
 
         public ActionResult List(string searchString, string categoryName)
@@ -55,8 +57,17 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
 
         public ActionResult Edit(int technicsId = 0)
         {
-            var product = this.technicService.GetTechnicForEdit(technicsId);
-            
+            TechnicEditDTO product;
+            if (technicsId == 0)
+            {
+                product = new TechnicEditDTO();
+                product.Technic = new TechnicDTO();
+            }
+            else
+            {
+                product = this.technicService.GetTechnicForEdit(technicsId);
+            }
+
             product.Categories = new SelectList(this.categoryService.GetAll(), "Id", "Name");
 
             return View(product);
@@ -71,9 +82,20 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
                 {
                     var dto = technic.Technic;
                     dto.Category = this.categoryService.GetSingle(technic.CategoryId).Name;
-                    this.technicService.UpdateTechnic(dto);
+                    if (technicService.Exists(dto))
+                    {
+                        this.technicService.UpdateTechnic(dto);
 
-                    TempData["message"] = string.Format("Changes in product \"{0}\" were saved.", technic.Technic.Name);
+                        TempData["message"] = string.Format("Changes in product \"{0}\" were saved.", dto.Name);
+                    }
+                    else
+                    {
+                        this.technicService.CreateTechnic(dto);
+
+                        TempData["message"] = string.Format("Product \"{0}\" was saved.", dto.Name);
+
+                    }
+
                     return RedirectToAction("List");
                 }
             }
@@ -91,24 +113,26 @@ namespace TechnoStore.WebUI.Areas.Admin.Controllers
         {
             var deletedTechnic = this.technicService.GetSingle(technicsId);
             this.technicService.DeleteTechnic(deletedTechnic);
-                TempData["message"] = string.Format("Product \"{0}\" was deleted.", deletedTechnic.Name);
+            TempData["message"] = string.Format("Product \"{0}\" was deleted.", deletedTechnic.Name);
 
             return RedirectToAction("List");
         }
 
         public ActionResult ShowProfile()
         {
-            //var totalRequestsAmount = 0;
-            //foreach(var request in this.repository.RequestStatistics)
-            //{
-            //    totalRequestsAmount += request.Amount;
-            //}
-            //ViewBag.TotalAmount = totalRequestsAmount;
-            //return View("Profile",this.repository.RequestStatistics);
-            return Content("");
+            var totalRequestsAmount = 0;
+
+            var requestsStatistics = this.requestService.GetAll();
+            foreach (var request in requestsStatistics)
+            {
+                totalRequestsAmount += request.Amount;
+            }
+
+            ViewBag.TotalAmount = totalRequestsAmount;
+            return View("Profile", requestsStatistics);
         }
     }
 
 
-   
+
 }

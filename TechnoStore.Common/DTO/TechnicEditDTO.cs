@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace TechnoStore.Common.DTO
@@ -12,10 +7,8 @@ namespace TechnoStore.Common.DTO
     {
         public TechnicDTO Technic { get; set; }
 
-
         public int CategoryId { get; set; }
 
-        [Display(Name = "Category")]
         public IEnumerable<SelectListItem> Categories { get; set; }
     }
 }

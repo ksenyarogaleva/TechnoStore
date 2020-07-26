@@ -11,9 +11,10 @@ namespace TechnoStore.BLL.Infrastructure
         public override void Load()
         {
             Bind<IUnitOfWork>().To<UnitOfWork>();
-            Bind<TechnoStore.BLL.Interfaces.IUserService>().To<TechnoStore.BLL.Services.UserService>();
+            Bind<IUserService>().To<UserService>();
             Bind<ITechnicService>().To<TechnicService>();
             Bind<ICategoryService>().To<CategoryService>();
+            Bind<IRequestService>().To<RequestService>();
         }
     }
 }
