@@ -1,4 +1,3 @@
-using Ninject.Web.Mvc;
 using System.Web.Mvc;
 using System.Web.Routing;
 using TechnoStore.Web.Infrastructure;
@@ -12,6 +11,7 @@ namespace TechnoStore.Web
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             log4net.Config.XmlConfigurator.Configure();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             DependencyResolver.SetResolver(new Ninject.Web.Mvc.NinjectDependencyResolver(KernelHolder.Kernel));
         }
     }

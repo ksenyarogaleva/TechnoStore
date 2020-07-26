@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\CategoryDTO.cs" />
+    <Compile Include="DTO\LogDTO.cs" />
     <Compile Include="DTO\RequestDTO.cs" />
     <Compile Include="DTO\TechnicDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\ClientProfile.cs" />
+    <Compile Include="Entities\Log.cs" />
     <Compile Include="Entities\Request.cs" />
     <Compile Include="Entities\Technic.cs" />
     <Compile Include="Infrastructure\OperationDetails.cs" />

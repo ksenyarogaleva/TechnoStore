@@ -9,6 +9,7 @@ namespace TechnoStore.DAL.Interfaces
         ITechnicRepository Technics { get; }
         ICategoryRepository Categories { get; }
         IRequestRepository Requests { get; }
+        ILogRepository Logs { get; }
         IClientManager ClientManager { get; }
         ApplicationUserManager UserManager { get; }
         ApplicationRoleManager RoleManager { get; }
