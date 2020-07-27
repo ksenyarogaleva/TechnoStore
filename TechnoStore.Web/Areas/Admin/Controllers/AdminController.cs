@@ -13,7 +13,7 @@ namespace TechnoStore.Web.Areas.Admin.Controllers
         private ITechnicService technicService;
         private ICategoryService categoryService;
         private IRequestService requestService;
-        public AdminController(ITechnicService technicService, ICategoryService categoryService,IRequestService requestService)
+        public AdminController(ITechnicService technicService, ICategoryService categoryService, IRequestService requestService)
         {
             this.technicService = technicService;
             this.categoryService = categoryService;
@@ -61,7 +61,7 @@ namespace TechnoStore.Web.Areas.Admin.Controllers
             if (technicsId == 0)
             {
                 product = new TechnicEditDTO();
-                product.Technic = new TechnicDTO();
+                //product.Technic = new TechnicDTO();
             }
             else
             {
@@ -80,21 +80,10 @@ namespace TechnoStore.Web.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var dto = technic.Technic;
-                    dto.Category = this.categoryService.GetSingle(technic.CategoryId).Name;
-                    if (technicService.Exists(dto))
-                    {
-                        this.technicService.UpdateTechnic(dto);
+                    technic.Technic.Category = this.categoryService.GetSingle(technic.CategoryId).Name;
+                    this.technicService.UpdateTechnic(technic);
 
-                        TempData["message"] = string.Format("Changes in product \"{0}\" were saved.", dto.Name);
-                    }
-                    else
-                    {
-                        this.technicService.CreateTechnic(dto);
-
-                        TempData["message"] = string.Format("Product \"{0}\" was saved.", dto.Name);
-
-                    }
+                    TempData["message"] = string.Format("Product \"{0}\" was saved.", technic.Technic.Name);
 
                     return RedirectToAction("List");
                 }

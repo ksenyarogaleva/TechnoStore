@@ -280,10 +280,12 @@
     <Compile Include="Areas\Error\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Error\ErrorAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\TechnicsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
     <Compile Include="Infrastructure\Filters\ExceptionLoggerAttribute.cs" />
     <Compile Include="Infrastructure\Filters\RequestStatisticAttribute.cs" />
     <Compile Include="Infrastructure\KernelHolder.cs" />
@@ -312,6 +314,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Cart\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -324,7 +327,6 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Error\Data\" />
     <Folder Include="Areas\Error\Views\Shared\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TechnoStore.BLL\TechnoStore.BLL.csproj">

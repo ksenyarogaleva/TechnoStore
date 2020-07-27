@@ -20,8 +20,6 @@
 
             @foreach (var property in ViewData.ModelMetadata.Properties)
             {
-                if (property.PropertyName != "Categories")
-                {
                     if (property.PropertyName == "Technic")
                     {
                         <div class="form-group">
@@ -52,7 +50,7 @@
                             @Html.ValidationMessageFor(model => model.CategoryId,"", new { @class = "text-danger" })
                         </div>
                     }
-                }
+                
 
             }
             <div class="panel-footer" style="margin-top:50px">

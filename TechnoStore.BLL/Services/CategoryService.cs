@@ -29,9 +29,7 @@ namespace TechnoStore.BLL.Services
 
         public IEnumerable<CategoryDTO> Find(Expression<Func<CategoryDTO, bool>> predicate)
         {
-            var mapper = new Mapper(new MapperConfiguration(cfg => {
-                cfg.AddExpressionMapping();
-            }));
+            var mapper = this.GetMapper();
 
             var expression = mapper.MapExpression<Expression<Func<Category, bool>>>(predicate);
 
@@ -43,7 +41,7 @@ namespace TechnoStore.BLL.Services
 
         public IEnumerable<CategoryDTO> GetAll()
         {
-            var mapper = this.MapCategoryIntoDTO();
+            var mapper = this.GetMapper();
 
             var categories = Task.Run(async () =>
               await this.unitOfWork.Categories.GetAllAsync()).Result.OrderBy(t => t.Name);
@@ -53,7 +51,7 @@ namespace TechnoStore.BLL.Services
 
         public CategoryDTO GetSingle(int id)
         {
-            var mapper = this.MapCategoryIntoDTO();
+            var mapper = this.GetMapper();
 
             var category = Task.Run(async () =>
               await this.unitOfWork.Categories.GetSingleAsync(id)).Result;
@@ -61,9 +59,14 @@ namespace TechnoStore.BLL.Services
             return mapper.Map<CategoryDTO>(category);
         }
 
-        private IMapper MapCategoryIntoDTO()
+        private IMapper GetMapper()
         {
-            return new MapperConfiguration(c => c.CreateMap<Category, CategoryDTO>()).CreateMapper();
+            return new MapperConfiguration(c =>
+            {
+                c.CreateMap<Category, CategoryDTO>();
+                c.CreateMap<CategoryDTO, Category>();
+                c.AddExpressionMapping();
+            }).CreateMapper();
         }
     }
 }

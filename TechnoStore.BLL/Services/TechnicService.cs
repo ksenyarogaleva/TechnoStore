@@ -44,7 +44,9 @@ namespace TechnoStore.BLL.Services
 
         public IEnumerable<TechnicDTO> Find(Expression<Func<TechnicDTO, bool>> predicate)
         {
-            var mapper = new Mapper(new MapperConfiguration(cfg => {
+            var mapper = new Mapper(new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Technic, TechnicDTO>().ForMember("Category", opt => opt.MapFrom(i => i.Category.Name));
                 cfg.AddExpressionMapping();
             }));
 
@@ -91,15 +93,31 @@ namespace TechnoStore.BLL.Services
 
         public TechnicEditDTO GetTechnicForEdit(int id)
         {
-            var technic = this.GetSingle(id);
+            var technicDTO = this.GetSingle(id);
             var technicEditDTO = new TechnicEditDTO
             {
-                Technic = technic,
-                CategoryId = Task.Run(async () => await this.unitOfWork.Categories.FindAsync(cat => cat.Name.Equals(technic.Category))).Result.First().Id,
+                Technic = technicDTO,
+                CategoryId = Task.Run(async () => await this.unitOfWork.Categories.FindAsync(cat => cat.Name.Equals(technicDTO.Category))).Result.First().Id,
             };
 
             return technicEditDTO;
         }
+
+        public void UpdateTechnic(TechnicEditDTO technic)
+        {
+            var doesExists = Task.Run(async () =>
+              await this.unitOfWork.Technics.ExistsAsync(t => t.Id == technic.Technic.Id)).Result;
+
+            if (doesExists)
+            {
+                this.UpdateTechnic(technic.Technic);
+            }
+            else
+            {
+                this.CreateTechnic(technic.Technic);
+            }
+        }
+
         private IMapper MapTechnicIntoDTO()
         {
             return new MapperConfiguration(c => c.CreateMap<Technic, TechnicDTO>()
