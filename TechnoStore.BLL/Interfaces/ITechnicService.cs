@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TechnoStore.Common.DTO;
+using TechnoStore.Common.Entities;
 using TechnoStore.Common.ViewModels;
 
 namespace TechnoStore.BLL.Interfaces

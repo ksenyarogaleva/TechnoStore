@@ -61,11 +61,11 @@ namespace TechnoStore.Web.Areas.Admin.Controllers
             if (technicsId == 0)
             {
                 product = new TechnicEditDTO();
-                //product.Technic = new TechnicDTO();
             }
             else
             {
                 product = this.technicService.GetTechnicForEdit(technicsId);
+                product.Category = this.categoryService.GetSingle(product.CategoryId).Name;
             }
 
             product.Categories = new SelectList(this.categoryService.GetAll(), "Id", "Name");
@@ -80,10 +80,9 @@ namespace TechnoStore.Web.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    technic.Technic.Category = this.categoryService.GetSingle(technic.CategoryId).Name;
                     this.technicService.UpdateTechnic(technic);
 
-                    TempData["message"] = string.Format("Product \"{0}\" was saved.", technic.Technic.Name);
+                    TempData["message"] = string.Format("Product \"{0}\" was saved.", technic.Name);
 
                     return RedirectToAction("List");
                 }

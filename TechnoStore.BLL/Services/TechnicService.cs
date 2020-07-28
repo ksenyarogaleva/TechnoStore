@@ -91,30 +91,29 @@ namespace TechnoStore.BLL.Services
             Task.Run(async () => await this.unitOfWork.Technics.UpdateAsync(entity));
         }
 
+
         public TechnicEditDTO GetTechnicForEdit(int id)
         {
             var technicDTO = this.GetSingle(id);
-            var technicEditDTO = new TechnicEditDTO
-            {
-                Technic = technicDTO,
-                CategoryId = Task.Run(async () => await this.unitOfWork.Categories.FindAsync(cat => cat.Name.Equals(technicDTO.Category))).Result.First().Id,
-            };
+            var entity = this.ConvertDTOIntoEntity(technicDTO);
+            var technicEditDTO = this.MapTechnicIntoEditModel().Map<TechnicEditDTO>(entity);
 
             return technicEditDTO;
         }
 
         public void UpdateTechnic(TechnicEditDTO technic)
         {
+            var entity = this.ConvertEditDTOIntoEntity(technic);
             var doesExists = Task.Run(async () =>
-              await this.unitOfWork.Technics.ExistsAsync(t => t.Id == technic.Technic.Id)).Result;
+              await this.unitOfWork.Technics.ExistsAsync(t => t.Id == entity.Id)).Result;
 
             if (doesExists)
             {
-                this.UpdateTechnic(technic.Technic);
+                Task.Run(async () => await this.unitOfWork.Technics.UpdateAsync(entity));
             }
             else
             {
-                this.CreateTechnic(technic.Technic);
+                Task.Run(async () => await this.unitOfWork.Technics.CreateAsync(entity));
             }
         }
 
@@ -136,6 +135,23 @@ namespace TechnoStore.BLL.Services
             };
         }
 
+        private IMapper MapTechnicIntoEditModel()
+        {
+            return new MapperConfiguration(c => c.CreateMap<Technic, TechnicEditDTO>()
+              .ForMember("Category", opt => opt.MapFrom(i => i.Category.Name))).CreateMapper();
+        }
+
+        private Technic ConvertEditDTOIntoEntity(TechnicEditDTO technicEditDTO)
+        {
+            return new Technic
+            {
+                Id = technicEditDTO.Id,
+                Name = technicEditDTO.Name,
+                Description = technicEditDTO.Description,
+                Price = technicEditDTO.Price,
+                CategoryId = technicEditDTO.CategoryId,
+            };
+        }
 
     }
 }

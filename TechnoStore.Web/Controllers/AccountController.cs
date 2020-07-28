@@ -46,16 +46,12 @@ namespace TechnoStore.Web.Controllers
                 }
                 else
                 {
-                    
-                    
-
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
                     if (User.IsInRole("Admin"))
                     {
-                        AuthenticationManager.SignIn(new AuthenticationProperties
-                        {
-                            IsPersistent = true
-                        }, claim);
-
                         return RedirectToAction("List", "Admin", new { area = "Admin" });
                     }
                     else
@@ -67,10 +63,6 @@ namespace TechnoStore.Web.Controllers
                         }
                         else
                         {
-                            AuthenticationManager.SignIn(new AuthenticationProperties
-                            {
-                                IsPersistent = true
-                            }, claim);
 
                             return RedirectToAction("List", "Technics");
                         }

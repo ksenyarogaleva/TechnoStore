@@ -1,6 +1,8 @@
 using System.Web.Mvc;
 using System.Web.Routing;
+using TechnoStore.Common.Infrastructure;
 using TechnoStore.Web.Infrastructure;
+using TechnoStore.Web.Infrastructure.Binders;
 
 namespace TechnoStore.Web
 {
@@ -11,7 +13,8 @@ namespace TechnoStore.Web
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             log4net.Config.XmlConfigurator.Configure();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
             DependencyResolver.SetResolver(new Ninject.Web.Mvc.NinjectDependencyResolver(KernelHolder.Kernel));
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Mvc.FilterBindingSyntax;
+using System.Web.Mvc;
 using TechnoStore.BLL.Infrastructure;
 using TechnoStore.BLL.Interfaces;
 using TechnoStore.Web.Infrastructure.Filters;
@@ -20,6 +21,7 @@ namespace TechnoStore.Web.Infrastructure
                     NinjectModule serviceModule = new ServiceModule();
                     //TODO Create ForumModule
                     kernel = new StandardKernel(serviceModule);
+                    //kernel.Unbind<ModelValidatorProvider>();
                     kernel.BindFilter<RequestStatisticAttribute>(System.Web.Mvc.FilterScope.Controller, 0)
                         .WhenControllerHas< RequestStatisticAttribute>();
                 }

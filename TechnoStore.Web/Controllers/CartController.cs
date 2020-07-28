@@ -35,7 +35,7 @@ namespace TechnoStore.Web.Controllers
                 cartService.AddToCart(cart,technic, 1);
             }
 
-            return RedirectToAction("Index", new { returnUrl });
+            return RedirectToAction("Index", new { cart=cart,returnUrl=returnUrl });
         }
 
         public RedirectToRouteResult RemoveFromCart(Cart cart, int technicsId, string returnUrl)

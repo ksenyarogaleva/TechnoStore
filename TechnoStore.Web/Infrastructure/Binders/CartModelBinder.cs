@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using TechnoStore.Common.DTO;
 using TechnoStore.Common.Infrastructure;
 
 namespace TechnoStore.Web.Infrastructure.Binders
@@ -15,7 +17,7 @@ namespace TechnoStore.Web.Infrastructure.Binders
             //if there was no cart in session-->create it
             if (cart is null)
             {
-                cart = new Cart();
+                cart = new Cart() { TechnicsInCart = new List<TechnicInCart>() };
                 controllerContext.HttpContext.Session[sessioKey] = cart;
             }
 

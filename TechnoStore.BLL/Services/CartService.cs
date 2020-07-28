@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TechnoStore.BLL.Interfaces;
 using TechnoStore.Common.DTO;
 using TechnoStore.Common.Infrastructure;
@@ -9,17 +10,23 @@ namespace TechnoStore.BLL.Services
     {
         public void AddToCart(Cart cart, TechnicDTO technic, int quantity)
         {
+            if (cart.TechnicsInCart is null)
+            {
+                cart.TechnicsInCart = new List<TechnicInCart>();
+            }
             var cartTechnic = cart.TechnicsInCart
                 .Where(c => c.Technic.Id == technic.Id)
                 .FirstOrDefault();
 
             if (cartTechnic is null)
             {
-                cart.TechnicsInCart.ToList().Add(new TechnicInCart
+                cartTechnic = new TechnicInCart
                 {
                     Technic = technic,
                     Quantity = quantity,
-                });
+                };
+
+                cart.TechnicsInCart.Add(cartTechnic);
             }
             else
             {
@@ -33,11 +40,15 @@ namespace TechnoStore.BLL.Services
         }
 
         public decimal ComputeTotalValue(Cart cart)
-            => cart.TechnicsInCart.Sum(t => t.Technic.Price * t.Quantity);
+        {
+            return cart.TechnicsInCart.Sum(t => t.Technic.Price * t.Quantity);
+        }
+
+
 
         public void RemoveFromCart(Cart cart, TechnicDTO technic)
         {
-            cart.TechnicsInCart.ToList().RemoveAll(t => t.Technic.Id == technic.Id);
+            cart.TechnicsInCart.RemoveAll(t => t.Technic.Id == technic.Id);
         }
     }
 }
