@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
@@ -18,87 +20,7 @@ namespace TechnoStore.Web.Controllers
 {
     public class AccountController : Controller
     {
-        //private ITechnicsRepository technics;
-
-        //public AccountController(ITechnicsRepository technicsRepository)
-        //{
-        //    this.technics = technicsRepository;
-        //}
-
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Login(LoginModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = this.technics.Users.FirstOrDefault(u => u.Email == model.UserName && u.Password == model.Password);
-
-        //        if (user != null)
-        //        {
-        //            FormsAuthentication.SetAuthCookie(model.UserName, true);
-        //            if (user.Role.Name == "Admin")
-        //            {
-        //                return RedirectToAction("List", "Admin",new {area="Admin" });
-        //            }
-        //            else
-        //            {
-        //                return RedirectToAction("List", "Technics");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError("", "No user with such login and password found.");
-        //        }
-        //    }
-
-        //    return View(model);
-        //}
-
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Register(RegisterModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = this.technics.Users.FirstOrDefault(u => u.Email == model.UserName);
-        //        //var user = this.technics.Users.Include(u => u.Role)
-        //        //    .FirstOrDefault(u => u.Email == model.UserName);
-
-        //        if (user == null)
-        //        {
-        //            user = new User() { Email = model.UserName, Password = model.Password };
-        //            user.RoleId = 2;
-        //            user.Role = this.technics.Roles.FirstOrDefault(r => r.Id == user.RoleId);
-
-        //            this.technics.SaveUser(user);
-        //            //this.db.Users.Add(new User { Email = model.Name, Password = model.Password, RoleId = 2 });
-        //            //this.db.SaveChanges();
-        //            user = this.technics.Users.Where(u => u.Email == model.UserName && u.Password == model.Password).FirstOrDefault();
-        //            if (user != null)
-        //            {
-        //                FormsAuthentication.SetAuthCookie(model.UserName, true);
-        //                return RedirectToAction("List", "Technics");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            //TempData["message"] = string.Format("Such user already exists");
-        //            ModelState.AddModelError("", "Such user already exists.");
-        //        }
-        //    }
-        //    return View(model);
-        //}
-
-        public ActionResult Logoff()
-        {
-            AuthenticationManager.SignOut();
-            return RedirectToAction("List", "Technics");
-        }
-
+        
         private IUserService UserService { get { return HttpContext.GetOwinContext().GetUserManager<IUserService>(); } }
 
         private IAuthenticationManager AuthenticationManager { get { return HttpContext.GetOwinContext().Authentication; } }
@@ -117,30 +39,52 @@ namespace TechnoStore.Web.Controllers
             if (ModelState.IsValid)
             {
                 UserDTO userDto = new UserDTO { Email = model.Email, Password = model.Password };
-                ClaimsIdentity claim = await UserService.Authenticate(userDto);
+                ClaimsIdentity claim = await UserService.AuthenticateAsync(userDto);
                 if (claim == null)
                 {
                     ModelState.AddModelError("", "Incorrect login or password.");
                 }
                 else
                 {
-                    AuthenticationManager.SignOut();
-                    AuthenticationManager.SignIn(new AuthenticationProperties
-                    {
-                        IsPersistent = true
-                    }, claim);
+                    
+                    
+
                     if (User.IsInRole("Admin"))
                     {
+                        AuthenticationManager.SignIn(new AuthenticationProperties
+                        {
+                            IsPersistent = true
+                        }, claim);
+
                         return RedirectToAction("List", "Admin", new { area = "Admin" });
                     }
                     else
                     {
-                        return RedirectToAction("List", "Technics");
+                        if(!await UserService.IsEmailConfirmedAsync(userDto.Id))
+                        {
+                            ViewBag.errorMessage = "Email haven't been confirmed.";
+                            return View("Error");
+                        }
+                        else
+                        {
+                            AuthenticationManager.SignIn(new AuthenticationProperties
+                            {
+                                IsPersistent = true
+                            }, claim);
+
+                            return RedirectToAction("List", "Technics");
+                        }
+                        
                     }
                 }
             }
 
             return View(model);
+        }
+        public ActionResult Logoff()
+        {
+            AuthenticationManager.SignOut();
+            return RedirectToAction("List", "Technics");
         }
 
         public ActionResult Register()
@@ -166,11 +110,26 @@ namespace TechnoStore.Web.Controllers
                 };
 
                 //add new user to the db
-                OperationDetails operationDetails = await UserService.Create(userDTO);
+                OperationDetails operationDetails = await UserService.CreateAsync(userDTO);
 
                 if (operationDetails.Succedeed)
                 {
-                    return View("SuccessRegistration");
+                    var code = this.UserService.GenerateEmailConfirmationTokenAsync(userDTO.Id);
+
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail", "Account", new
+                        {
+                            userId = userDTO.Id,
+                            code = code
+                        },
+                        protocol: Request.Url.Scheme);
+
+                    await this.UserService.SendEmailAsync(userDTO.Id,
+                        "Confirm your account",
+                        "Please, confirm your account by clicking this link: <a href=\""
+                        + callbackUrl + "\">link</a>");
+
+                    return View("DisplayEmail");
                 }
                 else
                 {
@@ -182,9 +141,28 @@ namespace TechnoStore.Web.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> ConfirmEmail(string userId,string code)
+        {
+            if(userId==null || code == null)
+            {
+                return View("Error");
+            }
+            var operationDetails = await UserService.ConfirmEmailAsync(userId, code);
+            if (operationDetails.Succedeed)
+            {
+                return View("ConfirmEmail");
+            }
+            else
+            {
+                ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
+                ViewBag.errorMessage = "Email haven't been confirmed.";
+                return View("Error");
+            }
+        }
+
         private async Task SetInitialDataAsync()
         {
-            await UserService.SetInitialData(new UserDTO
+            await UserService.SetInitialDataAsync(new UserDTO
             {
                 Email = "ksenyarogaleva87@gmail.com",
                 UserName = "ksenyarogaleva87@gmail.com",

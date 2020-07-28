@@ -18,87 +18,6 @@ namespace TechnoStore.WebUI.Controllers
 {
     public class AccountController : Controller
     {
-        //private ITechnicsRepository technics;
-
-        //public AccountController(ITechnicsRepository technicsRepository)
-        //{
-        //    this.technics = technicsRepository;
-        //}
-
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Login(LoginModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = this.technics.Users.FirstOrDefault(u => u.Email == model.UserName && u.Password == model.Password);
-
-        //        if (user != null)
-        //        {
-        //            FormsAuthentication.SetAuthCookie(model.UserName, true);
-        //            if (user.Role.Name == "Admin")
-        //            {
-        //                return RedirectToAction("List", "Admin",new {area="Admin" });
-        //            }
-        //            else
-        //            {
-        //                return RedirectToAction("List", "Technics");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError("", "No user with such login and password found.");
-        //        }
-        //    }
-
-        //    return View(model);
-        //}
-
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Register(RegisterModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = this.technics.Users.FirstOrDefault(u => u.Email == model.UserName);
-        //        //var user = this.technics.Users.Include(u => u.Role)
-        //        //    .FirstOrDefault(u => u.Email == model.UserName);
-
-        //        if (user == null)
-        //        {
-        //            user = new User() { Email = model.UserName, Password = model.Password };
-        //            user.RoleId = 2;
-        //            user.Role = this.technics.Roles.FirstOrDefault(r => r.Id == user.RoleId);
-
-        //            this.technics.SaveUser(user);
-        //            //this.db.Users.Add(new User { Email = model.Name, Password = model.Password, RoleId = 2 });
-        //            //this.db.SaveChanges();
-        //            user = this.technics.Users.Where(u => u.Email == model.UserName && u.Password == model.Password).FirstOrDefault();
-        //            if (user != null)
-        //            {
-        //                FormsAuthentication.SetAuthCookie(model.UserName, true);
-        //                return RedirectToAction("List", "Technics");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            //TempData["message"] = string.Format("Such user already exists");
-        //            ModelState.AddModelError("", "Such user already exists.");
-        //        }
-        //    }
-        //    return View(model);
-        //}
-
-        public ActionResult Logoff()
-        {
-            AuthenticationManager.SignOut();
-            return RedirectToAction("List", "Technics");
-        }
-
         private IUserService UserService { get { return HttpContext.GetOwinContext().GetUserManager<IUserService>(); } }
 
         private IAuthenticationManager AuthenticationManager { get { return HttpContext.GetOwinContext().Authentication; } }
@@ -117,7 +36,7 @@ namespace TechnoStore.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 UserDTO userDto = new UserDTO { Email = model.Email, Password = model.Password };
-                ClaimsIdentity claim = await UserService.Authenticate(userDto);
+                ClaimsIdentity claim = await UserService.AuthenticateAsync(userDto);
                 if (claim == null)
                 {
                     ModelState.AddModelError("", "Incorrect login or password.");
@@ -134,6 +53,12 @@ namespace TechnoStore.WebUI.Controllers
             }
 
             return View(model);
+        }
+
+        public ActionResult Logoff()
+        {
+            AuthenticationManager.SignOut();
+            return RedirectToAction("List", "Technics");
         }
 
         public ActionResult Register()
@@ -159,7 +84,7 @@ namespace TechnoStore.WebUI.Controllers
                 };
 
                 //add new user to the db
-                OperationDetails operationDetails = await UserService.Create(userDTO);
+                OperationDetails operationDetails = await UserService.CreateAsync(userDTO);
 
                 if (operationDetails.Succedeed)
                 {
@@ -177,7 +102,7 @@ namespace TechnoStore.WebUI.Controllers
 
         private async Task SetInitialDataAsync()
         {
-            await UserService.SetInitialData(new UserDTO
+            await UserService.SetInitialDataAsync(new UserDTO
             {
                 Email = "ksenyarogaleva87@gmail.com",
                 UserName = "ksenyarogaleva87@gmail.com",

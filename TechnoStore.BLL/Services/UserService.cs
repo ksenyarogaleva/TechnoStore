@@ -20,7 +20,7 @@ namespace TechnoStore.BLL.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<OperationDetails> Create(UserDTO userDto)
+        public async Task<OperationDetails> CreateAsync(UserDTO userDto)
         {
             ApplicationUser user = await this.unitOfWork.UserManager.FindByEmailAsync(userDto.Email);
             if (user is null)
@@ -31,16 +31,18 @@ namespace TechnoStore.BLL.Services
                 {
                     return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
                 }
-                    
+
                 // add role
                 await this.unitOfWork.UserManager.AddToRoleAsync(user.Id, userDto.Role);
+                
 
                 // create client profile
                 ClientProfile clientProfile = new ClientProfile { Id = user.Id, Address = userDto.Address, Name = userDto.Name };
                 this.unitOfWork.ClientManager.CreateClient(clientProfile);
-                await this.unitOfWork.SaveAsync();
 
-                return new OperationDetails(true, "Registration completed.", "");
+                await this.unitOfWork.SaveAsync();
+                userDto.Id = clientProfile.Id;
+                return new OperationDetails(true, "First step of registration completed.", "");
             }
             else
             {
@@ -48,7 +50,7 @@ namespace TechnoStore.BLL.Services
             }
         }
 
-        public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
+        public async Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
 
@@ -60,24 +62,23 @@ namespace TechnoStore.BLL.Services
             {
                 claim = await this.unitOfWork.UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             }
-
             return claim;
         }
 
         //start db initialization
-        public async Task SetInitialData(UserDTO adminDto, List<string> roles)
+        public async Task SetInitialDataAsync(UserDTO adminDto, List<string> roles)
         {
-            foreach(var roleName in roles)
+            foreach (var roleName in roles)
             {
                 var role = await this.unitOfWork.RoleManager.FindByNameAsync(roleName);
-                if(role is null)
+                if (role is null)
                 {
                     role = new ApplicationRole { Name = roleName };
                     await this.unitOfWork.RoleManager.CreateAsync(role);
                 }
             }
 
-            await Create(adminDto);
+            await CreateAsync(adminDto);
         }
 
         public void Dispose()
@@ -85,5 +86,31 @@ namespace TechnoStore.BLL.Services
             this.unitOfWork.Dispose();
         }
 
+        public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
+        {
+            return await this.unitOfWork.UserManager.GenerateEmailConfirmationTokenAsync(userId);
+        }
+
+        public async Task SendEmailAsync(string userId, string subject, string body)
+        {
+            this.unitOfWork.UserManager.EmailService = new EmailService();
+            await this.unitOfWork.UserManager.SendEmailAsync(userId, subject, body);
+        }
+
+        public async Task<OperationDetails> ConfirmEmailAsync(string userId, string code)
+        {
+            var result = await this.unitOfWork.UserManager.ConfirmEmailAsync(userId, code);
+            if (result.Succeeded)
+            {
+                return new OperationDetails(true, "Email confirmed", "");
+            }
+            else
+            {
+                return new OperationDetails(false, "Email wasn't confirmed.", "Email");
+            }
+        }
+
+        public async Task<bool> IsEmailConfirmedAsync(string userId)
+            => await this.unitOfWork.UserManager.IsEmailConfirmedAsync(userId);
     }
 }
