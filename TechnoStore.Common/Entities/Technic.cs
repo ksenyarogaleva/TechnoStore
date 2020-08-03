@@ -27,5 +27,12 @@ namespace TechnoStore.Common.Entities
 
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
+
+        public Technic()
+        {
+            Orders = new List<Order>();
+        }
     }
 }
