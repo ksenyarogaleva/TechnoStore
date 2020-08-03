@@ -1,3 +1,4 @@
+using System.Security.Policy;
 using System.Web.Mvc;
 using System.Web.Routing;
 using TechnoStore.Common.Infrastructure;
@@ -17,5 +18,6 @@ namespace TechnoStore.Web
             ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
             DependencyResolver.SetResolver(new Ninject.Web.Mvc.NinjectDependencyResolver(KernelHolder.Kernel));
         }
+
     }
 }

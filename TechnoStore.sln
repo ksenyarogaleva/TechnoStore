@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnoStore.Common", "Techn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnoStore.Web", "TechnoStore.Web\TechnoStore.Web.csproj", "{C03C9E74-5B1E-4DF3-9839-ED06D58CE958}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnoStore.Tests", "TechnoStore.Tests\TechnoStore.Tests.csproj", "{57C1F6B2-37BF-4A91-94B8-8ABD50EBF064}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C03C9E74-5B1E-4DF3-9839-ED06D58CE958}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C03C9E74-5B1E-4DF3-9839-ED06D58CE958}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C03C9E74-5B1E-4DF3-9839-ED06D58CE958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57C1F6B2-37BF-4A91-94B8-8ABD50EBF064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57C1F6B2-37BF-4A91-94B8-8ABD50EBF064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57C1F6B2-37BF-4A91-94B8-8ABD50EBF064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57C1F6B2-37BF-4A91-94B8-8ABD50EBF064}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -36,12 +36,22 @@ namespace TechnoStore.BLL.Services
 
         public void Clear(Cart cart)
         {
-            cart.TechnicsInCart.ToList().Clear();
+            if (cart.TechnicsInCart != null)
+            {
+                cart.TechnicsInCart.Clear();
+            }
         }
 
         public decimal ComputeTotalValue(Cart cart)
         {
-            return cart.TechnicsInCart.Sum(t => t.Technic.Price * t.Quantity);
+            if(cart!=null && cart.TechnicsInCart != null)
+            {
+                return cart.TechnicsInCart.Sum(t => t.Technic.Price * t.Quantity);
+            }
+            else
+            {
+                return 0;
+            }
         }
 
 

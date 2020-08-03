@@ -10,7 +10,7 @@ namespace TechnoStore.Web.Controllers
         ITechnicService service;
         ICartService cartService;
 
-        public CartController(ITechnicService technicService,ICartService cartService)
+        public CartController(ITechnicService technicService, ICartService cartService)
         {
             this.service = technicService;
             this.cartService = cartService;
@@ -32,10 +32,10 @@ namespace TechnoStore.Web.Controllers
 
             if (technic != null)
             {
-                cartService.AddToCart(cart,technic, 1);
+                cartService.AddToCart(cart, technic, 1);
             }
 
-            return RedirectToAction("Index", new { cart=cart,returnUrl=returnUrl });
+            return RedirectToAction("Index", new { cart = cart, returnUrl = returnUrl });
         }
 
         public RedirectToRouteResult RemoveFromCart(Cart cart, int technicsId, string returnUrl)
@@ -44,7 +44,7 @@ namespace TechnoStore.Web.Controllers
 
             if (technic != null)
             {
-                cartService.RemoveFromCart(cart,technic);
+                cartService.RemoveFromCart(cart, technic);
             }
 
             return RedirectToAction("Index", new { returnUrl });

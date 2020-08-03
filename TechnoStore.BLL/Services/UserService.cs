@@ -56,6 +56,7 @@ namespace TechnoStore.BLL.Services
 
             //find user
             ApplicationUser user = await this.unitOfWork.UserManager.FindAsync(userDto.Email, userDto.Password);
+            userDto.Id = user.Id;
 
             //make this user authorized and return ClaimsIdentity object
             if (user != null)

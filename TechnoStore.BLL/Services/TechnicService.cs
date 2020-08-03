@@ -70,7 +70,7 @@ namespace TechnoStore.BLL.Services
 
         public TechnicViewModel GetTechnicsList(int pageSize, int pageNumber, List<TechnicDTO> technics)
         {
-            var technicViewModel = technics.GetPagedData(pageSize, pageNumber);
+            var technicViewModel = technics.GetPagedData(pageNumber, pageSize);
 
             return technicViewModel;
         }
