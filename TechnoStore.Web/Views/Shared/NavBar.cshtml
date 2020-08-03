@@ -5,7 +5,6 @@
     <div class="pull-right">
         @if (User.Identity.IsAuthenticated)
         {
-            @Html.ActionLink("SignOut", "Logoff", "Account", new { area = "" }, new { @class = "navbar-brand " })
             if (User.IsInRole("Admin"))
             {
                 @Html.ActionLink(User.Identity.Name, "ShowProfile", "Admin", new { area = "Admin" }, new { @class = "navbar-brand " })
@@ -14,6 +13,7 @@
             {
                 @Html.ActionLink(User.Identity.Name, "List", "Technics", new { area = "" }, new { @class = "navbar-brand " })
             }
+            @Html.ActionLink("SignOut", "Logoff", "Account", new { area = "" }, new { @class = "navbar-brand " })
         }
         else
         {

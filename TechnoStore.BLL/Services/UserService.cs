@@ -34,7 +34,6 @@ namespace TechnoStore.BLL.Services
 
                 // add role
                 await this.unitOfWork.UserManager.AddToRoleAsync(user.Id, userDto.Role);
-                
 
                 // create client profile
                 ClientProfile clientProfile = new ClientProfile { Id = user.Id, Address = userDto.Address, Name = userDto.Name };
@@ -42,7 +41,7 @@ namespace TechnoStore.BLL.Services
 
                 await this.unitOfWork.SaveAsync();
                 userDto.Id = clientProfile.Id;
-                return new OperationDetails(true, "First step of registration completed.", "");
+                return new OperationDetails(true, "Registration completed.", "");
             }
             else
             {
@@ -87,31 +86,5 @@ namespace TechnoStore.BLL.Services
             this.unitOfWork.Dispose();
         }
 
-        public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
-        {
-            return await this.unitOfWork.UserManager.GenerateEmailConfirmationTokenAsync(userId);
-        }
-
-        public async Task SendEmailAsync(string userId, string subject, string body)
-        {
-            this.unitOfWork.UserManager.EmailService = new EmailService();
-            await this.unitOfWork.UserManager.SendEmailAsync(userId, subject, body);
-        }
-
-        public async Task<OperationDetails> ConfirmEmailAsync(string userId, string code)
-        {
-            var result = await this.unitOfWork.UserManager.ConfirmEmailAsync(userId, code);
-            if (result.Succeeded)
-            {
-                return new OperationDetails(true, "Email confirmed", "");
-            }
-            else
-            {
-                return new OperationDetails(false, "Email wasn't confirmed.", "Email");
-            }
-        }
-
-        public async Task<bool> IsEmailConfirmedAsync(string userId)
-            => await this.unitOfWork.UserManager.IsEmailConfirmedAsync(userId);
     }
 }

@@ -20,7 +20,7 @@ namespace TechnoStore.Web.Controllers
 {
     public class AccountController : Controller
     {
-        
+
         private IUserService UserService { get { return HttpContext.GetOwinContext().GetUserManager<IUserService>(); } }
 
         private IAuthenticationManager AuthenticationManager { get { return HttpContext.GetOwinContext().Authentication; } }
@@ -56,17 +56,7 @@ namespace TechnoStore.Web.Controllers
                     }
                     else
                     {
-                        if(!await UserService.IsEmailConfirmedAsync(userDto.Id))
-                        {
-                            ViewBag.errorMessage = "Email haven't been confirmed.";
-                            return View("Error");
-                        }
-                        else
-                        {
-
-                            return RedirectToAction("List", "Technics");
-                        }
-                        
+                        return RedirectToAction("List", "Technics");
                     }
                 }
             }
@@ -106,22 +96,7 @@ namespace TechnoStore.Web.Controllers
 
                 if (operationDetails.Succedeed)
                 {
-                    var code = this.UserService.GenerateEmailConfirmationTokenAsync(userDTO.Id);
-
-                    var callbackUrl = Url.Action(
-                        "ConfirmEmail", "Account", new
-                        {
-                            userId = userDTO.Id,
-                            code = code
-                        },
-                        protocol: Request.Url.Scheme);
-
-                    await this.UserService.SendEmailAsync(userDTO.Id,
-                        "Confirm your account",
-                        "Please, confirm your account by clicking this link: <a href=\""
-                        + callbackUrl + "\">link</a>");
-
-                    return View("DisplayEmail");
+                    return View("SuccessRegistration");
                 }
                 else
                 {
@@ -131,25 +106,6 @@ namespace TechnoStore.Web.Controllers
             }
 
             return View(model);
-        }
-
-        public async Task<ActionResult> ConfirmEmail(string userId,string code)
-        {
-            if(userId==null || code == null)
-            {
-                return View("Error");
-            }
-            var operationDetails = await UserService.ConfirmEmailAsync(userId, code);
-            if (operationDetails.Succedeed)
-            {
-                return View("ConfirmEmail");
-            }
-            else
-            {
-                ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
-                ViewBag.errorMessage = "Email haven't been confirmed.";
-                return View("Error");
-            }
         }
 
         private async Task SetInitialDataAsync()

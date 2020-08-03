@@ -27,6 +27,8 @@ namespace TechnoStore.Tests
                 new TechnicDTO { Id = 1, Category = "Phones", Description = "Cool phone", Name = "IPhone 7 Rose gold", Price = 519.99M },
                 new TechnicDTO { Id = 1, Category = "Phones", Description = "Cool phone", Name = "IPhone 7 Rose gold", Price = 519.99M },
             };
+            int pageSize = 3;
+            int pageNumber = 2;
 
             var result = technicService.GetTechnicsList(pageSize, pageNumber, technicList);
 

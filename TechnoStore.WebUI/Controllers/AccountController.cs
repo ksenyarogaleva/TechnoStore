@@ -43,7 +43,7 @@ namespace TechnoStore.WebUI.Controllers
                 }
                 else
                 {
-                    //AuthenticationManager.SignOut();
+                    AuthenticationManager.SignOut();
                     AuthenticationManager.SignIn(new AuthenticationProperties
                     {
                         IsPersistent = true
