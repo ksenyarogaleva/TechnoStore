@@ -12,5 +12,7 @@ namespace TechnoStore.BLL.Interfaces
         Task<OperationDetails> CreateAsync(UserDTO userDto);
         Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto);
         Task SetInitialDataAsync(UserDTO adminDto, List<string> roles);
+        Task<IEnumerable<OrderDTO>> GetAllOrders(string userId);
+       
     }
 }

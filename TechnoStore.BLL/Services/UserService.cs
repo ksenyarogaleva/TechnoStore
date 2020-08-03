@@ -8,6 +8,8 @@ using TechnoStore.Common.Infrastructure;
 using TechnoStore.DAL.Interfaces;
 using System.Linq;
 using Microsoft.AspNet.Identity;
+using AutoMapper;
+using System.Data.Entity.Infrastructure;
 
 namespace TechnoStore.BLL.Services
 {
@@ -37,7 +39,7 @@ namespace TechnoStore.BLL.Services
 
                 // create client profile
                 ClientProfile clientProfile = new ClientProfile { Id = user.Id, Address = userDto.Address, Name = userDto.Name };
-                this.unitOfWork.ClientManager.CreateClient(clientProfile);
+                await this.unitOfWork.ClientManager.CreateClient(clientProfile);
 
                 await this.unitOfWork.SaveAsync();
                 userDto.Id = clientProfile.Id;
@@ -84,6 +86,40 @@ namespace TechnoStore.BLL.Services
         public void Dispose()
         {
             this.unitOfWork.Dispose();
+        }
+
+        public async Task<IEnumerable<OrderDTO>> GetAllOrders(string userId)
+        {
+            var orderEntities = await this.unitOfWork.ClientManager.GetClientOrders(userId);
+            List<OrderDTO> orders = new List<OrderDTO>();
+            var mapper = this.GetMapper();
+            foreach (var order in orderEntities)
+            {
+                orders.Add(
+                    new OrderDTO
+                    {
+                        OrderDetails = mapper.Map<OrderDetailsDTO>(order.OrderDetails),
+                        Technics = this.MapTechnicIntoDTO().Map<IEnumerable<TechnicDTO>>(order.Technics).ToList(),
+                    });
+            }
+
+            return orders;
+        }
+
+
+        private IMapper GetMapper()
+        {
+            return new MapperConfiguration(c =>
+            {
+                c.CreateMap<OrderDetailsDTO, OrderDetails>();
+                c.CreateMap<OrderDetails, OrderDetailsDTO>();
+            }).CreateMapper();
+        }
+
+        private IMapper MapTechnicIntoDTO()
+        {
+            return new MapperConfiguration(c => c.CreateMap<Technic, TechnicDTO>()
+              .ForMember("Category", opt => opt.MapFrom(i => i.Category.Name))).CreateMapper();
         }
 
     }

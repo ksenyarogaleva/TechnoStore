@@ -15,6 +15,8 @@ namespace TechnoStore.Common.Entities
 
         [ForeignKey("ClientProfileId")]
         public virtual ClientProfile ClientProfile { get; set; }
+        public virtual OrderDetails OrderDetails { get; set; }
+
 
         public virtual ICollection<Technic> Technics { get; set; }
 

@@ -17,6 +17,7 @@ namespace TechnoStore.BLL.Infrastructure
             Bind<IRequestService>().To<RequestService>();
             Bind<ILogService>().To<LogService>();
             Bind<ICartService>().To<CartService>();
+            Bind<IOrderService>().To<OrderService>();
         }
     }
 }

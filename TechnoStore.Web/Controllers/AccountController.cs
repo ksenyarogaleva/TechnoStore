@@ -108,6 +108,14 @@ namespace TechnoStore.Web.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> OrderList()
+        {
+            var userId = User.Identity.GetUserId();
+            var orders = await UserService.GetAllOrders(userId);
+
+            return View(orders);
+        }
+
         private async Task SetInitialDataAsync()
         {
             await UserService.SetInitialDataAsync(new UserDTO

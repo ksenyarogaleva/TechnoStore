@@ -1,4 +1,8 @@
-﻿using TechnoStore.Common.Entities;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using TechnoStore.Common.Entities;
 using TechnoStore.DAL.Context;
 using TechnoStore.DAL.Interfaces;
 
@@ -12,15 +16,31 @@ namespace TechnoStore.DAL.Repositories
             Database = db;
         }
 
-        public void CreateClient(ClientProfile client)
+        public async Task CreateClient(ClientProfile client)
         {
             Database.ClientProfiles.Add(client);
-            Database.SaveChanges();
+            await Database.SaveChangesAsync();
         }
 
         public void Dispose()
         {
             Database.Dispose();
+        }
+
+        public async Task UpdateClient(ClientProfile clientProfile)
+        {
+            Database.Entry(clientProfile).State = EntityState.Modified;
+            await Database.SaveChangesAsync();
+        }
+
+        public async Task<ClientProfile> FindAsync(string clientId)
+        {
+            return await Database.ClientProfiles.Where(c => c.Id == clientId).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Order>> GetClientOrders(string clientId)
+        {
+            return await Database.Orders.Where(o => o.ClientProfileId == clientId).ToListAsync();
         }
     }
 

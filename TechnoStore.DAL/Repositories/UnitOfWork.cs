@@ -19,6 +19,7 @@ namespace TechnoStore.DAL.Repositories
         public ICategoryRepository Categories { get; private set; }
         public IRequestRepository Requests { get; private set; }
         public ILogRepository Logs { get; private set; }
+        public IOrderRepository Orders { get; private set; }
 
         public UnitOfWork()
         {
@@ -30,6 +31,7 @@ namespace TechnoStore.DAL.Repositories
             Categories = new CategoryRepository(this.context);
             Requests = new RequestRepository(this.context);
             Logs = new LogRepository(this.context);
+            Orders = new OrderRepository(this.context);
         }
 
         public void Dispose()

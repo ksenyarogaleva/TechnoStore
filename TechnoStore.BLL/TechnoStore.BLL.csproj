@@ -71,6 +71,7 @@
     <Compile Include="Interfaces\ICartService.cs" />
     <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Interfaces\ILogService.cs" />
+    <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IRequestService.cs" />
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Interfaces\IServiceCreator.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Services\CartService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\LogService.cs" />
+    <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\RequestService.cs" />
     <Compile Include="Services\TechnicService.cs" />
     <Compile Include="Services\ServiceCreator.cs" />

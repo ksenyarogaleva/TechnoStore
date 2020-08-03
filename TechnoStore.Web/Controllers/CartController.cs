@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNet.Identity;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Web.Mvc;
 using TechnoStore.BLL.Interfaces;
+using TechnoStore.Common.DTO;
 using TechnoStore.Common.Infrastructure;
 using TechnoStore.Common.ViewModels;
 
@@ -9,11 +12,13 @@ namespace TechnoStore.Web.Controllers
     {
         ITechnicService service;
         ICartService cartService;
+        IOrderService orderService;
 
-        public CartController(ITechnicService technicService, ICartService cartService)
+        public CartController(ITechnicService technicService, ICartService cartService, IOrderService orderService)
         {
             this.service = technicService;
             this.cartService = cartService;
+            this.orderService = orderService;
         }
 
         public ActionResult Index(Cart cart, string returnUrl)
@@ -50,5 +55,17 @@ namespace TechnoStore.Web.Controllers
             return RedirectToAction("Index", new { returnUrl });
         }
 
+        public ActionResult Checkout()
+        {
+            return View(new OrderDetailsDTO());
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult Checkout(Cart cart, OrderDetailsDTO orderDetails)
+        {
+            var userId = User.Identity.GetUserId();
+            this.orderService.ProcessOrder(cart, userId, orderDetails);
+            return RedirectToAction("OrderList", "Account");
+        }
     }
 }

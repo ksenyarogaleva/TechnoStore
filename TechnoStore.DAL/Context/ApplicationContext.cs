@@ -13,7 +13,8 @@ namespace TechnoStore.DAL.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Log> Logs { get; set; }
-
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+
     }
 }

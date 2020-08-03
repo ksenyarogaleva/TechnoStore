@@ -19,9 +19,7 @@ namespace TechnoStore.Web.Infrastructure
                 if (kernel == null)
                 {
                     NinjectModule serviceModule = new ServiceModule();
-                    //TODO Create ForumModule
                     kernel = new StandardKernel(serviceModule);
-                    //kernel.Unbind<ModelValidatorProvider>();
                     kernel.BindFilter<RequestStatisticAttribute>(System.Web.Mvc.FilterScope.Controller, 0)
                         .WhenControllerHas< RequestStatisticAttribute>();
                 }
