@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using TechnoStore.BLL.Interfaces;
 using TechnoStore.Common.DTO;
@@ -61,10 +62,10 @@ namespace TechnoStore.Web.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult Checkout(Cart cart, OrderDetailsDTO orderDetails)
+        public async Task<RedirectToRouteResult> Checkout(Cart cart, OrderDetailsDTO orderDetails)
         {
             var userId = User.Identity.GetUserId();
-            this.orderService.ProcessOrder(cart, userId, orderDetails);
+            await this.orderService.ProcessOrder(cart, userId, orderDetails);
             cartService.Clear(cart);
             return RedirectToAction("OrderList", "Account");
         }

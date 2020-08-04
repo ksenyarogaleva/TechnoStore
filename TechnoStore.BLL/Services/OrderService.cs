@@ -36,12 +36,27 @@ namespace TechnoStore.BLL.Services
                 var mapper = this.GetMapper();
                 var detailsEntity = mapper.Map<OrderDetails>(orderDetails);
                 var orders = new List<Order>();
-
-                await this.unitOfWork.OrderDetails.CreateAsync(detailsEntity);
-                
                 foreach (var dto in dtos)
                 {
-                    orders.Add(new Order() { TechnicId = dto.Id, ClientProfileId = clientId, OrderDetailsId = detailsEntity.Id });
+                    orders.Add(new Order() { TechnicId = dto.Id, ClientProfileId = clientId });
+                }
+
+                var entity = Task.Run(async () => await this.unitOfWork.OrderDetails.FindAsync(detailsEntity)).Result;
+
+                if(entity is null)
+                {
+                    await this.unitOfWork.OrderDetails.CreateAsync(detailsEntity);
+                    foreach(var order in orders)
+                    {
+                        order.OrderDetailsId = detailsEntity.Id;
+                    }
+                }
+                else
+                {
+                    foreach (var order in orders)
+                    {
+                        order.OrderDetailsId = entity.Id;
+                    }
                 }
 
                 foreach(var order in orders)

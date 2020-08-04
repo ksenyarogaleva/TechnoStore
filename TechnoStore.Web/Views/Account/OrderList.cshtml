@@ -12,12 +12,16 @@
 
         <div class="row" style="margin-top:25px; margin-left:30px;">
             <div class=" well col-sm-3 pull-right" style="margin-right:65px;">
-                <h1>
+                <h3>
                     <strong>Order Details</strong>
-                </h1>
+                </h3>
                 <h3>
                     <span class="pull-left label label-primary">Country:</span>
                     @order.OrderDetails.Country
+                </h3>
+                <h3>
+                    <span class="pull-left label label-primary">City:</span>
+                    @order.OrderDetails.City
                 </h3>
                 <h3>
                     <span class="pull-left label label-primary">Address:</span>
