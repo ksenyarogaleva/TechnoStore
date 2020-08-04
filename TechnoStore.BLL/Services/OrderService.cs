@@ -35,22 +35,20 @@ namespace TechnoStore.BLL.Services
 
                 var mapper = this.GetMapper();
                 var detailsEntity = mapper.Map<OrderDetails>(orderDetails);
-                var order = new Order()
-                {
-                    ClientProfileId = clientId,
-                };
+                var orders = new List<Order>();
 
-                detailsEntity.Order = order;
-                foreach(var dto in dtos)
+                await this.unitOfWork.OrderDetails.CreateAsync(detailsEntity);
+                
+                foreach (var dto in dtos)
                 {
-                    order.Technics.Add(this.ConvertDTOIntoEntity(dto));
+                    orders.Add(new Order() { TechnicId = dto.Id, ClientProfileId = clientId, OrderDetailsId = detailsEntity.Id });
                 }
 
-                order.OrderDetails = detailsEntity;
-                order.TotalSum = this.ComputeTotalSum(order.Technics);
+                foreach(var order in orders)
+                {
+                    await this.unitOfWork.Orders.CreateAsync(order);
+                }
 
-                await this.unitOfWork.Orders.CreateAsync(order);
-                await this.unitOfWork.OrderDetails.CreateAsync(detailsEntity);
             }
         }
 
@@ -75,10 +73,6 @@ namespace TechnoStore.BLL.Services
             };
         }
 
-        private decimal ComputeTotalSum(IEnumerable<Technic> technics)
-        {
-            return technics.Sum(t => t.Price);
-        }
 
     }
 }

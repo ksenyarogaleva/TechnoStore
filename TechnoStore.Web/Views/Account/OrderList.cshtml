@@ -23,23 +23,14 @@
                     <span class="pull-left label label-primary">Address:</span>
                     @order.OrderDetails.Address
                 </h3>
-                <h3>
-                    <span style="margin-top:25px;" class="pull-left label label-success">Total: @order.TotalSum</span>
-                </h3>
             </div>
-            @foreach (var technic in order.Technics)
-            {
-                <div class="well col-xs-8">
-                    <h3>
-                        <strong>@technic.Name</strong>
-                        <span class="pull-right label label-success">@technic.Price.ToString("# $")</span>
-                    </h3>
-                    <span class="lead">@technic.Description</span>
-                </div>
-            }
-
-
-
+            <div class="well col-xs-8">
+                <h3>
+                    <strong>@order.Technic.Name</strong>
+                    <span class="pull-right label label-success">@order.Technic.Price.ToString("# $")</span>
+                </h3>
+                <span class="lead">@order.Technic.Description</span>
+            </div>
 
         </div>
     }

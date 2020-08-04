@@ -6,20 +6,18 @@ namespace TechnoStore.Common.Entities
     public class Order
     {
         public int Id { get; set; }
-        public decimal TotalSum { get; set; }
 
         public string ClientProfileId { get; set; }
+        public int TechnicId { get; set; }
+        public int OrderDetailsId { get; set; }
 
         [ForeignKey("ClientProfileId")]
         public virtual ClientProfile ClientProfile { get; set; }
+
+        [ForeignKey("OrderDetailsId")]
         public virtual OrderDetails OrderDetails { get; set; }
 
-
-        public virtual ICollection<Technic> Technics { get; set; }
-
-        public Order()
-        {
-            Technics = new List<Technic>();
-        }
+        [ForeignKey("TechnicId")]
+        public virtual Technic Technic { get; set; }
     }
 }

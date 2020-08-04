@@ -99,8 +99,7 @@ namespace TechnoStore.BLL.Services
                         new OrderDTO
                         {
                             OrderDetails = mapper.Map<OrderDetailsDTO>(order.OrderDetails),
-                            Technics = this.MapTechnicIntoDTO().Map<IEnumerable<TechnicDTO>>(order.Technics).ToList(),
-                            TotalSum = order.TotalSum
+                            Technic = this.MapTechnicIntoDTO().Map<TechnicDTO>(order.Technic),
                         }); ;
                 }
 

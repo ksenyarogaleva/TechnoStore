@@ -91,9 +91,13 @@
     <Compile Include="Migrations\202008031935590_OrderDetails.designer.cs">
       <DependentUpon>202008031935590_OrderDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008041045044_OrderTotalSumField.cs" />
-    <Compile Include="Migrations\202008041045044_OrderTotalSumField.designer.cs">
-      <DependentUpon>202008041045044_OrderTotalSumField.cs</DependentUpon>
+    <Compile Include="Migrations\202008041411518_NewMigration.cs" />
+    <Compile Include="Migrations\202008041411518_NewMigration.designer.cs">
+      <DependentUpon>202008041411518_NewMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008041452457_Orders.cs" />
+    <Compile Include="Migrations\202008041452457_Orders.designer.cs">
+      <DependentUpon>202008041452457_Orders.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,8 +132,11 @@
     <EmbeddedResource Include="Migrations\202008031935590_OrderDetails.resx">
       <DependentUpon>202008031935590_OrderDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008041045044_OrderTotalSumField.resx">
-      <DependentUpon>202008041045044_OrderTotalSumField.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008041411518_NewMigration.resx">
+      <DependentUpon>202008041411518_NewMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008041452457_Orders.resx">
+      <DependentUpon>202008041452457_Orders.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
