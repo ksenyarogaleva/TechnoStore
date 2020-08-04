@@ -89,19 +89,27 @@ namespace TechnoStore.BLL.Services
         public async Task<IEnumerable<OrderDTO>> GetAllOrders(string userId)
         {
             var orderEntities = await this.unitOfWork.ClientManager.GetClientOrders(userId);
-            List<OrderDTO> orders = new List<OrderDTO>();
-            var mapper = this.GetMapper();
-            foreach (var order in orderEntities)
+            if (orderEntities != null)
             {
-                orders.Add(
-                    new OrderDTO
-                    {
-                        OrderDetails = mapper.Map<OrderDetailsDTO>(order.OrderDetails),
-                        Technics = this.MapTechnicIntoDTO().Map<IEnumerable<TechnicDTO>>(order.Technics).ToList(),
-                    });
-            }
+                List<OrderDTO> orders = new List<OrderDTO>();
+                var mapper = this.GetMapper();
+                foreach (var order in orderEntities)
+                {
+                    orders.Add(
+                        new OrderDTO
+                        {
+                            OrderDetails = mapper.Map<OrderDetailsDTO>(order.OrderDetails),
+                            Technics = this.MapTechnicIntoDTO().Map<IEnumerable<TechnicDTO>>(order.Technics).ToList(),
+                            TotalSum = order.TotalSum
+                        }); ;
+                }
 
-            return orders;
+                return orders;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private IMapper GetMapper()

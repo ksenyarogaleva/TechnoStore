@@ -4,24 +4,43 @@
     ViewBag.Title = "OrderList";
 }
 
-<h2>OrderList</h2>
+<h2 style="text-align:center;">Orders</h2>
+@if (Model.Any())
+{
+    foreach (var order in Model)
+    {
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th></th>
-    </tr>
+        <div class="row" style="margin-top:25px; margin-left:30px;">
+            <div class=" well col-sm-3 pull-right" style="margin-right:65px;">
+                <h1>
+                    <strong>Order Details</strong>
+                </h1>
+                <h3>
+                    <span class="pull-left label label-primary">Country:</span>
+                    @order.OrderDetails.Country
+                </h3>
+                <h3>
+                    <span class="pull-left label label-primary">Address:</span>
+                    @order.OrderDetails.Address
+                </h3>
+                <h3>
+                    <span style="margin-top:25px;" class="pull-left label label-success">Total: @order.TotalSum</span>
+                </h3>
+            </div>
+            @foreach (var technic in order.Technics)
+            {
+                <div class="well col-xs-8">
+                    <h3>
+                        <strong>@technic.Name</strong>
+                        <span class="pull-right label label-success">@technic.Price.ToString("# $")</span>
+                    </h3>
+                    <span class="lead">@technic.Description</span>
+                </div>
+            }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
+
+
+
+        </div>
+    }
 }
-
-</table>

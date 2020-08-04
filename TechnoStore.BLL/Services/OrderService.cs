@@ -47,6 +47,7 @@ namespace TechnoStore.BLL.Services
                 }
 
                 order.OrderDetails = detailsEntity;
+                order.TotalSum = this.ComputeTotalSum(order.Technics);
 
                 await this.unitOfWork.Orders.CreateAsync(order);
                 await this.unitOfWork.OrderDetails.CreateAsync(detailsEntity);
@@ -73,5 +74,11 @@ namespace TechnoStore.BLL.Services
                 CategoryId = Task.Run(async () => await this.unitOfWork.Categories.FindAsync(cat => cat.Name.Equals(technic.Category))).Result.First().Id,
             };
         }
+
+        private decimal ComputeTotalSum(IEnumerable<Technic> technics)
+        {
+            return technics.Sum(t => t.Price);
+        }
+
     }
 }
