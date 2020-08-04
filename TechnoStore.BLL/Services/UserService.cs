@@ -9,7 +9,6 @@ using TechnoStore.DAL.Interfaces;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using AutoMapper;
-using System.Data.Entity.Infrastructure;
 
 namespace TechnoStore.BLL.Services
 {
@@ -67,7 +66,6 @@ namespace TechnoStore.BLL.Services
             return claim;
         }
 
-        //start db initialization
         public async Task SetInitialDataAsync(UserDTO adminDto, List<string> roles)
         {
             foreach (var roleName in roles)
@@ -105,7 +103,6 @@ namespace TechnoStore.BLL.Services
 
             return orders;
         }
-
 
         private IMapper GetMapper()
         {

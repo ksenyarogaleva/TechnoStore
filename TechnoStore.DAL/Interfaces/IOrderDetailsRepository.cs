@@ -3,8 +3,8 @@ using TechnoStore.Common.Entities;
 
 namespace TechnoStore.DAL.Interfaces
 {
-    public interface IOrderRepository
+    public interface IOrderDetailsRepository
     {
-        Task CreateAsync(Order order);
+        Task CreateAsync(OrderDetails orderDetails);
     }
 }

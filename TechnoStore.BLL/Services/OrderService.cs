@@ -19,7 +19,7 @@ namespace TechnoStore.BLL.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public void ProcessOrder(Cart cart, string clientId, OrderDetailsDTO orderDetails)
+        public async Task ProcessOrder(Cart cart, string clientId, OrderDetailsDTO orderDetails)
         {
             var technics = cart.TechnicsInCart;
             if (technics != null)
@@ -45,9 +45,11 @@ namespace TechnoStore.BLL.Services
                 {
                     order.Technics.Add(this.ConvertDTOIntoEntity(dto));
                 }
+
                 order.OrderDetails = detailsEntity;
 
-                
+                await this.unitOfWork.Orders.CreateAsync(order);
+                await this.unitOfWork.OrderDetails.CreateAsync(detailsEntity);
             }
         }
 

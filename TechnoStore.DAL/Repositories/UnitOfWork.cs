@@ -21,6 +21,8 @@ namespace TechnoStore.DAL.Repositories
         public ILogRepository Logs { get; private set; }
         public IOrderRepository Orders { get; private set; }
 
+        public IOrderDetailsRepository OrderDetails { get; private set; }
+
         public UnitOfWork()
         {
             this.context = new ApplicationContext();
@@ -32,6 +34,7 @@ namespace TechnoStore.DAL.Repositories
             Requests = new RequestRepository(this.context);
             Logs = new LogRepository(this.context);
             Orders = new OrderRepository(this.context);
+            OrderDetails = new OrderDetailsRepository(this.context);
         }
 
         public void Dispose()

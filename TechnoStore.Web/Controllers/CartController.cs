@@ -65,6 +65,7 @@ namespace TechnoStore.Web.Controllers
         {
             var userId = User.Identity.GetUserId();
             this.orderService.ProcessOrder(cart, userId, orderDetails);
+            cartService.Clear(cart);
             return RedirectToAction("OrderList", "Account");
         }
     }

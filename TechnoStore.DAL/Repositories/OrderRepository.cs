@@ -19,12 +19,9 @@ namespace TechnoStore.DAL.Repositories
             this.context = applicationContext;
         }
 
-        public async Task CreateAsync(Order order, OrderDetails orderDetails)
+        public async Task CreateAsync(Order order)
         {
             context.Orders.Add(order);
-            await context.SaveChangesAsync();
-
-            context.OrderDetails.Add(orderDetails);
             await context.SaveChangesAsync();
         }
     }
