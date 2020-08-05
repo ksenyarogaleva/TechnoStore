@@ -14,15 +14,16 @@ namespace TechnoStore.BLL.Services
     public class RequestService : IRequestService
     {
         protected IUnitOfWork unitOfWork;
+        protected IMapper mapper;
 
-        public RequestService(IUnitOfWork unitOfWork)
+        public RequestService(IUnitOfWork unitOfWork,IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public void CreateRequestStatistic(RequestDTO request)
         {
-            var mapper = this.GetMapper();
             var entity = mapper.Map<Request>(request);
 
             Task.Run(async () => await this.unitOfWork.Requests.CreateAsync(entity));
@@ -37,11 +38,6 @@ namespace TechnoStore.BLL.Services
 
         public IEnumerable<RequestDTO> Find(Expression<Func<RequestDTO, bool>> predicate)
         {
-            var mapper =new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<RequestDTO, Request>();
-                cfg.CreateMap<Request, RequestDTO>();
-            }).CreateMapper();
             var expression = mapper.MapExpression<Expression<Func<Request, bool>>>(predicate);
 
             var requests = Task.Run(async () =>
@@ -53,8 +49,6 @@ namespace TechnoStore.BLL.Services
 
         public IEnumerable<RequestDTO> GetAll()
         {
-            var mapper = this.GetMapper();
-
             var requests = Task.Run(async () =>
                await this.unitOfWork.Requests.GetAllAsync()).Result;
 
@@ -63,8 +57,6 @@ namespace TechnoStore.BLL.Services
 
         public RequestDTO GetSingle(int id)
         {
-            var mapper = this.GetMapper();
-
             var request = Task.Run(async () =>
             await this.unitOfWork.Requests.GetSingleAsync(id)).Result;
 
@@ -73,19 +65,10 @@ namespace TechnoStore.BLL.Services
 
         public void UpdateRequestStatistic(RequestDTO request)
         {
-            var entity = this.GetMapper().Map<Request>(request);
+            var entity = mapper.Map<Request>(request);
 
             Task.Run(async () => await this.unitOfWork.Requests.UpdateAsync(entity));
-        }
-
-        private IMapper GetMapper()
-            => new MapperConfiguration(c =>
-            {
-                c.CreateMap<Request, RequestDTO>();
-                c.CreateMap<RequestDTO, Request>();
-                c.AddExpressionMapping();
-            }).CreateMapper();
-        
+        }   
 
     }
 }

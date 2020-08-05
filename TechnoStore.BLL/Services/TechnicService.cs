@@ -17,9 +17,12 @@ namespace TechnoStore.BLL.Services
     public class TechnicService : ITechnicService
     {
         protected IUnitOfWork unitOfWork;
-        public TechnicService(IUnitOfWork unitOfWork)
+        protected IMapper mapper;
+
+        public TechnicService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public void CreateTechnic(TechnicDTO technic)
@@ -44,12 +47,6 @@ namespace TechnoStore.BLL.Services
 
         public IEnumerable<TechnicDTO> Find(Expression<Func<TechnicDTO, bool>> predicate)
         {
-            var mapper = new Mapper(new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Technic, TechnicDTO>().ForMember("Category", opt => opt.MapFrom(i => i.Category.Name));
-                cfg.AddExpressionMapping();
-            }));
-
             var expression = mapper.MapExpression<Expression<Func<Technic, bool>>>(predicate);
 
             var technicsList = Task.Run(async () =>
@@ -60,8 +57,6 @@ namespace TechnoStore.BLL.Services
 
         public IEnumerable<TechnicDTO> GetAll()
         {
-            var mapper = this.MapTechnicIntoDTO();
-
             var technicsList = Task.Run(async () =>
                await this.unitOfWork.Technics.GetAllAsync()).Result.OrderBy(t => t.Name);
 
@@ -77,8 +72,6 @@ namespace TechnoStore.BLL.Services
 
         public TechnicDTO GetSingle(int id)
         {
-            var mapper = this.MapTechnicIntoDTO();
-
             var technic = Task.Run(async () =>
             await this.unitOfWork.Technics.GetSingleAsync(id)).Result;
 
@@ -96,14 +89,14 @@ namespace TechnoStore.BLL.Services
         {
             var technicDTO = this.GetSingle(id);
             var entity = this.ConvertDTOIntoEntity(technicDTO);
-            var technicEditDTO = this.MapTechnicIntoEditModel().Map<TechnicEditDTO>(entity);
+            var technicEditDTO = mapper.Map<TechnicEditDTO>(entity);
 
             return technicEditDTO;
         }
 
         public void UpdateTechnic(TechnicEditDTO technic)
         {
-            var entity = this.ConvertEditDTOIntoEntity(technic);
+            var entity = mapper.Map<Technic>(technic);
             var doesExists = Task.Run(async () =>
               await this.unitOfWork.Technics.ExistsAsync(t => t.Id == entity.Id)).Result;
 
@@ -117,12 +110,6 @@ namespace TechnoStore.BLL.Services
             }
         }
 
-        private IMapper MapTechnicIntoDTO()
-        {
-            return new MapperConfiguration(c => c.CreateMap<Technic, TechnicDTO>()
-              .ForMember("Category", opt => opt.MapFrom(i => i.Category.Name))).CreateMapper();
-        }
-
         private Technic ConvertDTOIntoEntity(TechnicDTO technic)
         {
             return new Technic
@@ -132,24 +119,6 @@ namespace TechnoStore.BLL.Services
                 Description = technic.Description,
                 Price = technic.Price,
                 CategoryId = Task.Run(async () => await this.unitOfWork.Categories.FindAsync(cat => cat.Name.Equals(technic.Category))).Result.First().Id,
-            };
-        }
-
-        private IMapper MapTechnicIntoEditModel()
-        {
-            return new MapperConfiguration(c => c.CreateMap<Technic, TechnicEditDTO>()
-              .ForMember("Category", opt => opt.MapFrom(i => i.Category.Name))).CreateMapper();
-        }
-
-        private Technic ConvertEditDTOIntoEntity(TechnicEditDTO technicEditDTO)
-        {
-            return new Technic
-            {
-                Id = technicEditDTO.Id,
-                Name = technicEditDTO.Name,
-                Description = technicEditDTO.Description,
-                Price = technicEditDTO.Price,
-                CategoryId = technicEditDTO.CategoryId,
             };
         }
 

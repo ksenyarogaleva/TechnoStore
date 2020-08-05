@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TechnoStore.BLL.Interfaces;
 using TechnoStore.Common.DTO;
-using TechnoStore.Common.Entities;
 using TechnoStore.DAL.Interfaces;
 
 namespace TechnoStore.BLL.Services
@@ -12,9 +10,12 @@ namespace TechnoStore.BLL.Services
     public class LogService : ILogService
     {
         protected IUnitOfWork unitOfWork;
-        public LogService(IUnitOfWork unitOfWork)
+        protected IMapper mapper;
+
+        public LogService(IUnitOfWork unitOfWork,IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public int Count()
@@ -40,7 +41,7 @@ namespace TechnoStore.BLL.Services
             var logs = Task.Run(async () =>
                   await this.unitOfWork.Logs.GetAllAsync()).Result;
 
-            return this.MapLogIntoDTO().Map<IEnumerable<LogDTO>>(logs);
+            return mapper.Map<IEnumerable<LogDTO>>(logs);
         }
 
         public LogDTO GetLog(int id)
@@ -48,10 +49,8 @@ namespace TechnoStore.BLL.Services
             var log = Task.Run(async () =>
               await this.unitOfWork.Logs.GetSingleAsync(id)).Result;
 
-            return this.MapLogIntoDTO().Map<LogDTO>(log);
+            return mapper.Map<LogDTO>(log);
         }
 
-        private IMapper MapLogIntoDTO()
-            => new MapperConfiguration(c => c.CreateMap<Log, LogDTO>()).CreateMapper();
     }
 }

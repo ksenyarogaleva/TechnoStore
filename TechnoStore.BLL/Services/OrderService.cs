@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TechnoStore.BLL.Interfaces;
 using TechnoStore.Common.DTO;
@@ -13,10 +12,12 @@ namespace TechnoStore.BLL.Services
     public class OrderService : IOrderService
     {
         protected IUnitOfWork unitOfWork;
+        protected IMapper mapper;
 
-        public OrderService(IUnitOfWork unitOfWork)
+        public OrderService(IUnitOfWork unitOfWork,IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task ProcessOrder(Cart cart, string clientId, OrderDetailsDTO orderDetails)
@@ -33,7 +34,6 @@ namespace TechnoStore.BLL.Services
                     }
                 }
 
-                var mapper = this.GetMapper();
                 var detailsEntity = mapper.Map<OrderDetails>(orderDetails);
                 var orders = new List<Order>();
                 foreach (var dto in dtos)
@@ -66,28 +66,6 @@ namespace TechnoStore.BLL.Services
 
             }
         }
-
-        private IMapper GetMapper()
-        {
-            return new MapperConfiguration(c =>
-            {
-                c.CreateMap<OrderDetailsDTO, OrderDetails>();
-                c.CreateMap<OrderDetails, OrderDetailsDTO>();
-            }).CreateMapper();
-        }
-
-        private Technic ConvertDTOIntoEntity(TechnicDTO technic)
-        {
-            return new Technic
-            {
-                Id = technic.Id,
-                Name = technic.Name,
-                Description = technic.Description,
-                Price = technic.Price,
-                CategoryId = Task.Run(async () => await this.unitOfWork.Categories.FindAsync(cat => cat.Name.Equals(technic.Category))).Result.First().Id,
-            };
-        }
-
 
     }
 }

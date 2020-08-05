@@ -1,10 +1,7 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using TechnoStore.BLL.AutoMapper;
 using TechnoStore.BLL.Interfaces;
 using TechnoStore.BLL.Services;
 using TechnoStore.Common.DTO;
@@ -19,7 +16,8 @@ namespace TechnoStore.Tests
         public void GetTechnicsList()
         {
             var uow = new UnitOfWork();
-            ITechnicService technicService = new TechnicService(uow);
+            var mapper = AutoMapperConfiguration.GetMapperConfiguration();
+            ITechnicService technicService = new TechnicService(uow,mapper);
             var technicList = new List<TechnicDTO>
             {
                 new TechnicDTO { Id = 1, Category = "Phones", Description = "Cool phone", Name = "IPhone 7 Rose gold", Price = 519.99M },

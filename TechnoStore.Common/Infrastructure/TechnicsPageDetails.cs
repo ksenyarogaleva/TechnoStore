@@ -8,7 +8,6 @@ namespace TechnoStore.Common.Infrastructure
 {
     public static class TechnicsPageDetails
     {
-        //Returns list of items that should be placed on page of number 'pageNumber'
         public static TechnicViewModel GetPagedData(this List<TechnicDTO> list, int pageNumber, int pageSize)
         {
             var result = new TechnicViewModel();

@@ -1,4 +1,6 @@
-﻿using Ninject.Modules;
+﻿using AutoMapper;
+using Ninject.Modules;
+using TechnoStore.BLL.AutoMapper;
 using TechnoStore.BLL.Interfaces;
 using TechnoStore.BLL.Services;
 using TechnoStore.DAL.Interfaces;
@@ -18,6 +20,9 @@ namespace TechnoStore.BLL.Infrastructure
             Bind<ILogService>().To<LogService>();
             Bind<ICartService>().To<CartService>();
             Bind<IOrderService>().To<OrderService>();
+
+            IMapper mapper = AutoMapperConfiguration.GetMapperConfiguration();
+            Bind<IMapper>().ToConstant(mapper);
         }
     }
 }

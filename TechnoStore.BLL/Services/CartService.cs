@@ -54,8 +54,6 @@ namespace TechnoStore.BLL.Services
             }
         }
 
-
-
         public void RemoveFromCart(Cart cart, TechnicDTO technic)
         {
             cart.TechnicsInCart.RemoveAll(t => t.Technic.Id == technic.Id);

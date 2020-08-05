@@ -14,11 +14,13 @@ namespace TechnoStore.BLL.Services
 {
     public class UserService : IUserService
     {
-        private IUnitOfWork unitOfWork;
+        protected IUnitOfWork unitOfWork;
+        protected IMapper mapper;
 
-        public UserService(IUnitOfWork unitOfWork)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task<OperationDetails> CreateAsync(UserDTO userDto)
@@ -33,10 +35,8 @@ namespace TechnoStore.BLL.Services
                     return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
                 }
 
-                // add role
                 await this.unitOfWork.UserManager.AddToRoleAsync(user.Id, userDto.Role);
 
-                // create client profile
                 ClientProfile clientProfile = new ClientProfile { Id = user.Id, Address = userDto.Address, Name = userDto.Name };
                 await this.unitOfWork.ClientManager.CreateClient(clientProfile);
 
@@ -54,11 +54,9 @@ namespace TechnoStore.BLL.Services
         {
             ClaimsIdentity claim = null;
 
-            //find user
             ApplicationUser user = await this.unitOfWork.UserManager.FindAsync(userDto.Email, userDto.Password);
             userDto.Id = user.Id;
 
-            //make this user authorized and return ClaimsIdentity object
             if (user != null)
             {
                 claim = await this.unitOfWork.UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
@@ -89,41 +87,18 @@ namespace TechnoStore.BLL.Services
         public async Task<IEnumerable<OrderDTO>> GetAllOrders(string userId)
         {
             var orderEntities = await this.unitOfWork.ClientManager.GetClientOrders(userId);
-            if (orderEntities != null)
+            List<OrderDTO> orders = new List<OrderDTO>();
+            foreach (var order in orderEntities)
             {
-                List<OrderDTO> orders = new List<OrderDTO>();
-                var mapper = this.GetMapper();
-                foreach (var order in orderEntities)
-                {
-                    orders.Add(
-                        new OrderDTO
-                        {
-                            OrderDetails = mapper.Map<OrderDetailsDTO>(order.OrderDetails),
-                            Technic = this.MapTechnicIntoDTO().Map<TechnicDTO>(order.Technic),
-                        }); ;
-                }
-
-                return orders;
+                orders.Add(
+                    new OrderDTO
+                    {
+                        OrderDetails = mapper.Map<OrderDetailsDTO>(order.OrderDetails),
+                        Technic = mapper.Map<TechnicDTO>(order.Technic),
+                    }); ;
             }
-            else
-            {
-                return null;
-            }
-        }
 
-        private IMapper GetMapper()
-        {
-            return new MapperConfiguration(c =>
-            {
-                c.CreateMap<OrderDetailsDTO, OrderDetails>();
-                c.CreateMap<OrderDetails, OrderDetailsDTO>();
-            }).CreateMapper();
-        }
-
-        private IMapper MapTechnicIntoDTO()
-        {
-            return new MapperConfiguration(c => c.CreateMap<Technic, TechnicDTO>()
-              .ForMember("Category", opt => opt.MapFrom(i => i.Category.Name))).CreateMapper();
+            return orders;
         }
 
     }

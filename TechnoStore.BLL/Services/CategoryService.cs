@@ -14,11 +14,13 @@ namespace TechnoStore.BLL.Services
 {
     public class CategoryService : ICategoryService
     {
-        private IUnitOfWork unitOfWork;
+        protected IUnitOfWork unitOfWork;
+        protected IMapper mapper;
 
-        public CategoryService(IUnitOfWork unitOfWork)
+        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public bool Exists(CategoryDTO entity)
@@ -29,8 +31,6 @@ namespace TechnoStore.BLL.Services
 
         public IEnumerable<CategoryDTO> Find(Expression<Func<CategoryDTO, bool>> predicate)
         {
-            var mapper = this.GetMapper();
-
             var expression = mapper.MapExpression<Expression<Func<Category, bool>>>(predicate);
 
             var categories = Task.Run(async () =>
@@ -41,8 +41,6 @@ namespace TechnoStore.BLL.Services
 
         public IEnumerable<CategoryDTO> GetAll()
         {
-            var mapper = this.GetMapper();
-
             var categories = Task.Run(async () =>
               await this.unitOfWork.Categories.GetAllAsync()).Result.OrderBy(t => t.Name);
 
@@ -51,22 +49,11 @@ namespace TechnoStore.BLL.Services
 
         public CategoryDTO GetSingle(int id)
         {
-            var mapper = this.GetMapper();
-
             var category = Task.Run(async () =>
               await this.unitOfWork.Categories.GetSingleAsync(id)).Result;
 
             return mapper.Map<CategoryDTO>(category);
         }
 
-        private IMapper GetMapper()
-        {
-            return new MapperConfiguration(c =>
-            {
-                c.CreateMap<Category, CategoryDTO>();
-                c.CreateMap<CategoryDTO, Category>();
-                c.AddExpressionMapping();
-            }).CreateMapper();
-        }
     }
 }

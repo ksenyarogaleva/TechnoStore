@@ -67,6 +67,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMapper\AutoMapperConfiguration.cs" />
+    <Compile Include="AutoMapper\CategoryMP.cs" />
+    <Compile Include="AutoMapper\LogMP.cs" />
+    <Compile Include="AutoMapper\OrderMP.cs" />
+    <Compile Include="AutoMapper\RequestMP.cs" />
+    <Compile Include="AutoMapper\TechnicMP.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Interfaces\ICartService.cs" />
     <Compile Include="Interfaces\ICategoryService.cs" />
@@ -74,7 +80,6 @@
     <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IRequestService.cs" />
     <Compile Include="Interfaces\IService.cs" />
-    <Compile Include="Interfaces\IServiceCreator.cs" />
     <Compile Include="Interfaces\ITechnicService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,7 +89,6 @@
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\RequestService.cs" />
     <Compile Include="Services\TechnicService.cs" />
-    <Compile Include="Services\ServiceCreator.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

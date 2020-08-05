@@ -11,10 +11,8 @@ namespace TechnoStore.Web.Infrastructure.Binders
 
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            //get the Cart from the session
             var cart = controllerContext.HttpContext.Session[sessioKey];
 
-            //if there was no cart in session-->create it
             if (cart is null)
             {
                 cart = new Cart() { TechnicsInCart = new List<TechnicInCart>() };
