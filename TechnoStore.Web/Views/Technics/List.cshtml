@@ -1,0 +1,63 @@
+﻿@using TechnoStore.Common.ViewModels
+@model TechnicViewModel
+
+@{
+    ViewBag.Title = "Products";
+}
+
+<div class="row">
+
+    <div id="categories" class="col-xs-3">
+        <div>
+
+            @Html.Action("Menu", "Technics", new { category = Model.CurrentCategory, searchString = Model.SearchingString, pageNumber = Model.CurrentPage })
+        </div>
+
+        <div style="margin-top:30px; margin-left:150px">
+            @Html.ActionLink("Go to cart", "Index", "Cart",
+            new { returnUrl = Request.Url.PathAndQuery, technicsId = 0 },
+            new { @class = "btn btn-success btn-lg" })
+        </div>
+
+    </div>
+
+    <div class="col-xs-8">
+        @using (Html.BeginForm("List", "Technics", new { category = Model.CurrentCategory }, FormMethod.Get))
+        {
+            <div class="form-inline" style="margin-bottom:25px;">
+                <label>Product Name:</label>
+
+                @Html.TextBox("searchString", "", new { @class = "form-control" })
+                <input type="submit" class="btn btn-primary" value="Search" />
+            </div>
+            <div id="technicsSummary">
+                @Html.Partial("TechnicsSummary", Model)
+            </div>
+        }
+
+
+
+    </div>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        $().ready(function () {
+            $(".page-number").click(function () {
+            //count the page number
+            var page = parseInt($(this).html());
+            $.ajax({
+                url: '@Url.Action("List")',
+                data: {
+                     "pageNumber": page
+                },
+                success: function (data) {
+                    $("#technicsSummary").html(data);
+                }
+            });
+        });
+        });
+    </script>
+}

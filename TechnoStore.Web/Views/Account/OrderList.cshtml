@@ -1,0 +1,41 @@
+﻿@model IEnumerable<TechnoStore.Common.DTO.OrderDTO>
+
+@{
+    ViewBag.Title = "OrderList";
+}
+
+<h2 style="text-align:center;">Orders</h2>
+@if (Model.Any())
+{
+    foreach (var order in Model)
+    {
+
+        <div class="row" style="margin-top:25px; margin-left:30px;">
+            <div class=" well col-sm-3 pull-right" style="margin-right:65px;">
+                <h3>
+                    <strong>Order Details</strong>
+                </h3>
+                <h3>
+                    <span class="pull-left label label-primary">Country:</span>
+                    @order.OrderDetails.Country
+                </h3>
+                <h3>
+                    <span class="pull-left label label-primary">City:</span>
+                    @order.OrderDetails.City
+                </h3>
+                <h3>
+                    <span class="pull-left label label-primary">Address:</span>
+                    @order.OrderDetails.Address
+                </h3>
+            </div>
+            <div class="well col-xs-8">
+                <h3>
+                    <strong>@order.Technic.Name</strong>
+                    <span class="pull-right label label-success">@order.Technic.Price.ToString("# $")</span>
+                </h3>
+                <span class="lead">@order.Technic.Description</span>
+            </div>
+
+        </div>
+    }
+}

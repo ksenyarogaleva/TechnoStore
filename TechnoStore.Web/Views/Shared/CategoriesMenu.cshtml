@@ -1,0 +1,22 @@
+﻿@model IEnumerable<string>
+
+@Html.ActionLink("MainPage", "List", "Technics",null,
+    new { @class = "btn btn-block btn-default btn-lg" })
+
+@foreach (var category in Model)
+{
+    @Html.RouteLink(category,
+    new
+    {
+        controller = "Technics",
+        action = "List",
+        category = category,
+        searchString=(string)ViewData["searchString"],
+        pageNumber=(int)ViewData["pageNumber"],
+    },
+    new
+    {
+        @class = "btn btn-block btn-default btn-lg" + (category == ViewBag.SelectedCategory ? " btn-primary" : "")
+    });
+}
+    

@@ -1,0 +1,24 @@
+﻿<div class="navbar navbar-inverse form-inline">
+    <div >
+        @Html.ActionLink("TechnoStore - technological stuff store", "List", "Technics", new { area = "" }, new { @class = "navbar-brand"})
+    </div>
+    <div class="pull-right">
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("Admin"))
+            {
+                @Html.ActionLink(User.Identity.Name, "ShowProfile", "Admin", new { area = "Admin" }, new { @class = "navbar-brand " })
+            }
+            else
+            {
+                @Html.ActionLink(User.Identity.Name, "OrderList", "Account", new { area = "" }, new { @class = "navbar-brand " })
+            }
+            @Html.ActionLink("SignOut", "Logoff", "Account", new { area = "" }, new { @class = "navbar-brand " })
+        }
+        else
+        {
+            @Html.ActionLink("SignIn", "Login", "Account", new { area = "" }, new { @class = "navbar-brand " })
+        }
+    </div>
+        
+</div>
