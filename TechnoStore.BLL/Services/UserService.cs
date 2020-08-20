@@ -9,6 +9,10 @@ using TechnoStore.DAL.Interfaces;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace TechnoStore.BLL.Services
 {
@@ -50,18 +54,24 @@ namespace TechnoStore.BLL.Services
             }
         }
 
-        public async Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto)
+        public async Task<IEnumerable<Claim>> AuthenticateAsync(UserDTO userDto)
         {
-            ClaimsIdentity claim = null;
+            IEnumerable<Claim> claims = null;
 
             ApplicationUser user = await this.unitOfWork.UserManager.FindAsync(userDto.Email, userDto.Password);
             userDto.Id = user.Id;
 
             if (user != null)
             {
-                claim = await this.unitOfWork.UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                //claim = await this.unitOfWork.UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                 claims = new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType,userDto.Email),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType,userDto.Role),
+                };
+            
             }
-            return claim;
+            return claims;
         }
 
         public async Task SetInitialDataAsync(UserDTO adminDto, List<string> roles)
@@ -101,5 +111,21 @@ namespace TechnoStore.BLL.Services
             return orders;
         }
 
+        public string GenerateToken(IEnumerable<Claim> claims, string issuer, string audience, string expiryTime,string signKey)
+        {
+            var signInKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(signKey));
+
+            int expiryTimeInMinutes = Convert.ToInt32(expiryTime);
+
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(expiryTimeInMinutes),
+                signingCredentials: new SigningCredentials(signInKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }

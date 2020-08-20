@@ -10,7 +10,8 @@ namespace TechnoStore.BLL.Interfaces
     public interface IUserService:IDisposable
     {
         Task<OperationDetails> CreateAsync(UserDTO userDto);
-        Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto);
+        Task<IEnumerable<Claim>> AuthenticateAsync(UserDTO userDto);
+        string GenerateToken(IEnumerable<Claim> claims, string issuer, string audience, string expiryTime, string signKey);
         Task SetInitialDataAsync(UserDTO adminDto, List<string> roles);
         Task<IEnumerable<OrderDTO>> GetAllOrders(string userId);
        

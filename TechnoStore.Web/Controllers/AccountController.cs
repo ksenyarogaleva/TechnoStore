@@ -34,17 +34,17 @@ namespace TechnoStore.Web.Controllers
             if (ModelState.IsValid)
             {
                 UserDTO userDto = new UserDTO { Email = model.Email, Password = model.Password };
-                ClaimsIdentity claim = await UserService.AuthenticateAsync(userDto);
-                if (claim == null)
+                var claims = await UserService.AuthenticateAsync(userDto);
+                if (claims == null)
                 {
                     ModelState.AddModelError("", "Incorrect login or password.");
                 }
                 else
                 {
-                    AuthenticationManager.SignIn(new AuthenticationProperties
-                    {
-                        IsPersistent = true
-                    }, claim);
+                    //AuthenticationManager.SignIn(new AuthenticationProperties
+                    //{
+                    //    IsPersistent = true
+                    //}, claim);
                     if (User.IsInRole("Admin"))
                     {
                         return RedirectToAction("List", "Admin", new { area = "Admin" });
